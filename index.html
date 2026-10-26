@@ -10,9 +10,10 @@
 <meta property="og:description" content="Calculadora de taller para RPM, avance, MRR, Kienzle, potencia y torque. Herramienta gratuita de Soluciones en Mecanizado CNC.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_CO">
-<!-- PUBLICACIÓN EN GITHUB PAGES
-     URL prevista: https://ngamezlombana.github.io/paracorte/
-     Si el repositorio se llama distinto, actualice og:url, og:image, twitter:image y canonical. -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
 <meta property="og:url" content="https://ngamezlombana.github.io/paracorte/">
 <meta property="og:site_name" content="ParaCorte.ing.Nestor">
 <meta property="og:image" content="https://ngamezlombana.github.io/paracorte/portada-linkedin.png">
@@ -25,8 +26,6 @@
 <meta name="twitter:description" content="Calculadora de taller para RPM, avance, MRR, Kienzle, potencia y torque. Herramienta gratuita de Soluciones en Mecanizado CNC.">
 <meta name="twitter:image" content="https://ngamezlombana.github.io/paracorte/portada-linkedin.png">
 <link rel="canonical" href="https://ngamezlombana.github.io/paracorte/">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
 <title>ParaCorte.ing.Nestor — Calculadora de Parámetros de Corte</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230c0e10'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='%23ffc400' stroke-width='4'/%3E%3Cpath d='M32 5v14M32 45v14M5 32h14M45 32h14' stroke='%23ffc400' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%23ffc400'/%3E%3C/svg%3E">
 <style>
@@ -197,7 +196,7 @@ table{border-collapse:collapse}
 .op-foot{margin-top:auto;padding-top:9px;border-top:1px solid var(--line-soft);display:flex;align-items:center;justify-content:space-between;font-family:var(--font-display);font-weight:700;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-2)}
 .op-arrow{color:var(--accent);transition:transform .2s;font-size:14px}
 
-.utility-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:14px}
+.utility-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:14px}
 .utility{display:flex;align-items:center;gap:10px;text-align:left;border:1px solid var(--line);background:var(--bg-deep);padding:11px 12px;cursor:pointer;transition:border-color .2s,background .2s;min-width:0}
 .utility:hover{border-color:var(--line-warm);background:var(--panel)}
 .utility svg{width:18px;height:18px;flex:0 0 auto;color:var(--accent)}
@@ -414,7 +413,7 @@ dialog::backdrop{background:rgba(0,0,0,.76);backdrop-filter:blur(4px)}
 .about-list .row b{flex:0 0 110px;font-family:var(--font-mono);font-size:7.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:400}
 .toast{position:fixed;left:50%;bottom:74px;transform:translate(-50%,16px);z-index:200;background:var(--bg-deep);border:1px solid var(--line-warm);border-left:3px solid var(--accent);color:var(--text);padding:10px 15px;font-family:var(--font-mono);font-size:9px;letter-spacing:.04em;text-transform:uppercase;opacity:0;pointer-events:none;transition:opacity .22s,transform .22s;box-shadow:var(--shadow);max-width:calc(100vw - 32px);text-align:center}
 .toast.show{opacity:1;transform:translate(-50%,0)}
-.mobile-nav{display:none;position:fixed;left:0;right:0;bottom:0;z-index:70;background:rgba(12,14,16,.97);border-top:1px solid var(--line);grid-template-columns:repeat(4,1fr);padding-bottom:env(safe-area-inset-bottom);backdrop-filter:blur(10px)}
+.mobile-nav{display:none;position:fixed;left:0;right:0;bottom:0;z-index:70;background:rgba(12,14,16,.97);border-top:1px solid var(--line);grid-template-columns:repeat(3,1fr);padding-bottom:env(safe-area-inset-bottom);backdrop-filter:blur(10px)}
 .mobile-nav a,.mobile-nav button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:52px;border:0;background:none;color:var(--muted-2);font-family:var(--font-display);font-weight:700;font-size:8px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;border-right:1px solid var(--line-soft)}
 .mobile-nav a:last-child,.mobile-nav button:last-child{border-right:0}
 .mobile-nav svg{width:16px;height:16px}
@@ -807,6 +806,73 @@ details.advanced .field-grid{margin-top:12px}
   .print-only{display:block!important}
   .no-print{display:none!important}
 }
+
+/* ============================================================
+   09. MEJORAS V2.0: UNIDADES, CODIGO G, VISUALIZADOR SVG, SETUP
+   ============================================================ */
+.unit-switch{display:inline-flex;background:var(--bg-deep);border:1px solid var(--line);border-radius:4px;padding:2px;gap:2px}
+.unit-switch button{border:none;background:transparent;color:var(--muted-2);font-family:var(--font-mono);font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:3px;cursor:pointer;transition:all .15s}
+.unit-switch button.active{background:var(--accent);color:var(--bg-deep)}
+.unit-switch button:hover:not(.active){color:var(--text)}
+
+.pwa-btn{display:none;align-items:center;gap:6px;background:var(--accent-soft);border:1px solid var(--accent);color:var(--accent);padding:4px 10px;border-radius:4px;font-size:11px;font-weight:700;cursor:pointer;transition:all .15s}
+.pwa-btn.visible{display:inline-flex}
+.pwa-btn:hover{background:var(--accent);color:var(--bg-deep)}
+.pwa-btn svg{width:13px;height:13px}
+
+.visual-panel{margin-top:14px}
+.visual-wrap{background:var(--bg-deep);border:1px solid var(--line);border-radius:6px;padding:14px;margin-top:10px;position:relative}
+.visual-svg{width:100%;height:auto;max-height:260px;display:block;overflow:visible}
+.visual-legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px;font-size:11px;color:var(--text-2);font-family:var(--font-mono);padding-top:10px;border-top:1px solid var(--line-soft)}
+.visual-legend span{display:inline-flex;align-items:center;gap:5px}
+.legend-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+
+.gcode-panel{margin-top:14px}
+.gcode-header-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.gcode-dialects{display:flex;gap:3px;background:var(--bg-deep);padding:2px;border-radius:4px;border:1px solid var(--line)}
+.gcode-dialect-btn{background:transparent;border:none;color:var(--muted-2);font-family:var(--font-mono);font-size:10.5px;font-weight:600;padding:4px 9px;border-radius:3px;cursor:pointer;transition:all .15s}
+.gcode-dialect-btn.active{background:var(--high);color:var(--accent);border:1px solid var(--line-warm)}
+.gcode-code-box{background:var(--bg-deep);border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-family:var(--font-mono);font-size:12px;line-height:1.55;color:#e6db74;overflow-x:auto;max-height:220px;white-space:pre;margin:0}
+.gcode-actions{display:flex;gap:8px;margin-top:10px}
+
+.chatter-card{margin-top:12px;padding:10px 12px;border-radius:4px;border:1px solid var(--line);background:var(--panel-2);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.chatter-info{font-size:12px;line-height:1.4}
+.chatter-info b{color:var(--text);display:block;margin-bottom:2px}
+.chatter-badge{font-family:var(--font-mono);font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:3px;text-transform:uppercase;white-space:nowrap}
+.chatter-badge.safe{background:rgba(123,216,143,.15);color:var(--success);border:1px solid var(--success)}
+.chatter-badge.warn{background:rgba(255,196,0,.15);color:var(--accent);border:1px solid var(--accent)}
+.chatter-badge.crit{background:rgba(255,90,78,.15);color:var(--danger);border:1px solid var(--danger)}
+
+.taylor-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+.taylor-box{background:var(--bg-deep);border:1px solid var(--line-soft);border-radius:4px;padding:7px 8px;text-align:center}
+.taylor-box .t-title{font-size:9.5px;color:var(--muted);text-transform:uppercase;font-family:var(--font-mono);display:block;margin-bottom:2px}
+.taylor-box .t-val{font-size:13.5px;font-weight:700;color:var(--accent);font-family:var(--font-mono)}
+.taylor-box .t-sub{font-size:9px;color:var(--text-2);display:block;margin-top:2px}
+
+.setup-modal{max-width:860px;width:95vw;padding:0;background:var(--panel);border:1px solid var(--line);color:var(--text)}
+.setup-sheet-wrap{background:#fff;color:#111;padding:24px;border-radius:4px;font-family:var(--font-body)}
+.setup-head{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #111;padding-bottom:12px;margin-bottom:14px}
+.setup-company{font-family:var(--font-display);font-size:22px;font-weight:800;text-transform:uppercase;line-height:1}
+.setup-company span{color:#997300}
+.setup-meta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;font-size:12px}
+.setup-meta-field{border:1px solid #ccc;padding:6px 8px;border-radius:3px}
+.setup-meta-field label{display:block;font-size:10px;text-transform:uppercase;color:#666;font-weight:700;margin-bottom:2px}
+.setup-meta-field input{width:100%;border:none;font-size:12px;font-weight:600;background:transparent;outline:none;color:#111}
+.setup-table{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:11px}
+.setup-table th,.setup-table td{border:1px solid #ddd;padding:6px 8px;text-align:left}
+.setup-table th{background:#f0f0f0;text-transform:uppercase;font-size:10px;font-weight:700;color:#222}
+.setup-checklist{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;font-size:11px;margin-bottom:14px;padding:10px;background:#fafafa;border:1px dashed #ccc;border-radius:4px}
+.setup-checklist label{display:flex;align-items:center;gap:6px;cursor:pointer;color:#333}
+.setup-gcode-preview{background:#1a1c1e;color:#a6e22e;font-family:var(--font-mono);font-size:10.5px;padding:10px;border-radius:4px;margin-bottom:14px;white-space:pre-wrap;max-height:120px;overflow-y:auto}
+.setup-footer{display:flex;justify-content:space-between;align-items:center;font-size:10.5px;color:#555;border-top:1px solid #ddd;padding-top:10px}
+.setup-footer strong{color:#111}
+
+@media print{
+  .setup-modal{max-width:100%!important;width:100%!important;border:none!important}
+  .setup-sheet-wrap{padding:0!important}
+  .setup-gcode-preview{background:#f4f4f4!important;color:#111!important;border:1px solid #ccc!important}
+}
+
 </style>
 </head>
 <body>
@@ -825,21 +891,27 @@ details.advanced .field-grid{margin-top:12px}
     </a>
 
     <div class="topbar-meta" aria-hidden="true">
-      <span class="status"><i class="status-dot"></i> Motor Kienzle en línea</span>
+      <span class="status"><i class="status-dot"></i> Motor Kienzle v2.0</span>
       <span class="divider"></span>
-      <span>6 operaciones</span>
+      <span>09 operaciones</span>
       <span class="divider"></span>
-      <span>100% local</span>
+      <span>Código G</span>
+      <span class="divider"></span>
+      <span>100% offline PWA</span>
     </div>
 
     <div class="topbar-actions">
-      <a class="btn btn-primary btn-sm site-link topbar-site" href="#" target="_blank" rel="noopener noreferrer" title="Abrir la página web de Soluciones en Mecanizado CNC">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 3h7v7M21 3l-9 9"/><path d="M10 5H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-5"/></svg>
-        <span class="btn-label">Sitio web</span><span class="ext" aria-hidden="true">↗</span>
-      </a>
-      <a class="btn btn-ghost btn-sm wa-link" href="#" target="_blank" rel="noopener noreferrer" title="Escribir por WhatsApp al Ing. Nestor">
+      <div class="unit-switch" id="unitSwitch" role="group" aria-label="Sistema de unidades">
+        <button type="button" class="unit-btn active" data-unit="metric" title="Sistema Métrico (mm, m/min, kW)">MÉTRICO</button>
+        <button type="button" class="unit-btn" data-unit="imperial" title="Sistema Imperial (in, SFM, HP)">IMPERIAL</button>
+      </div>
+      <button class="btn btn-ghost btn-sm pwa-btn" id="pwaInstallBtn" type="button" title="Instalar aplicación en este dispositivo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        <span>Instalar App</span>
+      </button>
+      <a class="btn btn-primary btn-sm wa-link topbar-wa" href="#" target="_blank" rel="noopener noreferrer" title="Escribir por WhatsApp al Ing. Nestor (+57 305 291 2936)">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-        WhatsApp
+        <span class="btn-label">WhatsApp (+57 305 291 2936)</span><span class="ext" aria-hidden="true">↗</span>
       </a>
       <button class="btn btn-icon" id="aboutBtn" type="button" aria-label="Acerca de ParaCorte" title="Acerca de la aplicación">i</button>
     </div>
@@ -848,7 +920,7 @@ details.advanced .field-grid{margin-top:12px}
   <div class="telemetry" aria-hidden="true">
     <div class="telemetry-track">
       <span><b>MODELO</b> KIENZLE + CHIP THINNING</span><span class="sep">//</span>
-      <span><b>TORNEADO</b> · <b>FRESADO</b> · <b>ROSCADO</b> · <b>MACHUELO</b> · <b>BALL NOSE</b> · <b>PECK DRILLING</b></span><span class="sep">//</span>
+      <span><b>TORNEADO</b> · <b>FRESADO</b> · <b>ROSCADO</b> · <b>MACHUELO</b> · <b>BALL NOSE</b> · <b>PECK DRILLING</b> · <b>TRONZADO</b> · <b>ESCARIADO</b> · <b>CHAFLÁN</b></span><span class="sep">//</span>
       <span><b>SALIDAS</b> RPM · vf · Q · kc · Pc · Mc</span><span class="sep">//</span>
       <span><b>SIN REGISTRO</b> · <b>SIN INSTALACIÓN</b> · <b>SIN CONEXIÓN</b></span>
     </div>
@@ -865,16 +937,15 @@ details.advanced .field-grid{margin-top:12px}
           <div class="brand-lockup"><span class="main">ParaCorte</span><span class="suffix">.ing.Nestor</span></div>
           <p class="brand-copy">Calculadora técnica de taller para <strong>torneado, fresado, roscado, machuelo, punta esférica y taladrado profundo</strong>. Motor analítico Kienzle con compensación de viruta, potencia y torque.</p>
           <div class="stat-strip" aria-label="Cobertura de la calculadora">
-            <div class="stat"><b>06</b><span>Operaciones</span></div>
+            <div class="stat"><b>09</b><span>Operaciones</span></div>
             <div class="stat"><b>10</b><span>Materiales</span></div>
-            <div class="stat"><b>100%</b><span>Local</span></div>
+            <div class="stat"><b>100%</b><span>Offline PWA</span></div>
           </div>
           <div class="site-card">
             <div class="site-eyebrow">[ Soluciones en Mecanizado CNC ]</div>
             <h3>¿Necesitas llevar estos números a la máquina?</h3>
             <p>Asesoría y consultoría en mecanizado CNC, programación Mastercam, SolidWorks, AutoCAD y optimización de código G. Cali, Valle del Cauca y soporte remoto.</p>
-            <a class="btn btn-primary site-link" href="#" target="_blank" rel="noopener noreferrer">Abrir la página web ↗</a>
-            <a class="btn btn-ghost btn-sm wa-link" href="#" target="_blank" rel="noopener noreferrer">WhatsApp +57 305 291 2936</a>
+            <a class="btn btn-primary wa-link" href="#" target="_blank" rel="noopener noreferrer" style="width:100%">Contactar por WhatsApp (+57 305 291 2936) ↗</a>
           </div>
           <div class="local-note">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
@@ -896,13 +967,13 @@ details.advanced .field-grid{margin-top:12px}
             </div>
           </div>
 
-          <a class="web-banner site-link" href="#" target="_blank" rel="noopener noreferrer" aria-label="Abrir la página web de Soluciones en Mecanizado CNC">
+          <a class="web-banner wa-link" href="#" target="_blank" rel="noopener noreferrer" aria-label="Escribir al WhatsApp del Ing. Nestor (+57 305 291 2936)">
             <span class="web-banner-copy">
-              <span class="web-banner-kicker">[ Canal principal · Soluciones en Mecanizado CNC ]</span>
-              <strong class="web-banner-title">Visita la página web</strong>
-              <span class="web-banner-url">ngamezlombana.github.io/Soluciones-Mecanizado</span>
+              <span class="web-banner-kicker">[ Asesoría técnica y soporte en planta ]</span>
+              <strong class="web-banner-title">Escríbeme por WhatsApp: +57 305 291 2936</strong>
+              <span class="web-banner-url">Ing. Nestor Alonso Gamez Lombana · Cali, Valle del Cauca</span>
             </span>
-            <span class="web-banner-cta">Abrir sitio web <span aria-hidden="true">↗</span></span>
+            <span class="web-banner-cta">Abrir WhatsApp <span aria-hidden="true">↗</span></span>
           </a>
 
           <div class="op-grid" id="opGrid" aria-label="Operaciones de mecanizado"></div>
@@ -916,10 +987,7 @@ details.advanced .field-grid{margin-top:12px}
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h5M8 16h8"/></svg>
               <span><b>Guía de fórmulas</b><span>Kienzle · chip thinning</span></span>
             </button>
-            <a class="utility site-link" href="#" target="_blank" rel="noopener noreferrer">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 3h7v7M21 3l-9 9"/><path d="M10 5H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-5"/></svg>
-              <span><b>Sitio web</b><span>Servicios CAD/CAM</span></span>
-            </a>
+
             <a class="utility wa-link" href="#" target="_blank" rel="noopener noreferrer">
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
               <span><b>WhatsApp</b><span>Asesoría directa</span></span>
@@ -937,8 +1005,7 @@ details.advanced .field-grid{margin-top:12px}
               <div class="foot-note">Herramienta de referencia de ingeniería. No sustituye la validación en máquina, el catálogo del fabricante ni las normas de seguridad. Los valores de kc1.1 y mc son referencias ajustables.</div>
             </div>
             <div class="foot-links">
-              <a class="site-link" href="#" target="_blank" rel="noopener noreferrer">Soluciones en Mecanizado ↗</a>
-              <a class="wa-link" href="#" target="_blank" rel="noopener noreferrer">WhatsApp ↗</a>
+              <a class="wa-link" href="#" target="_blank" rel="noopener noreferrer">WhatsApp: +57 305 291 2936 ↗</a>
               <a href="#menu" id="footAbout">Acerca de</a>
             </div>
           </footer>
@@ -960,6 +1027,10 @@ details.advanced .field-grid{margin-top:12px}
           <p id="calcOpDesc"></p>
         </div>
         <div class="calc-top-actions">
+          <button class="btn btn-ghost btn-sm" type="button" id="shareCalcBtn" title="Compartir este cálculo por enlace o WhatsApp">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            Compartir
+          </button>
           <span class="live-badge"><i></i> Cálculo en vivo</span>
           <button class="btn btn-ghost btn-sm" type="button" id="resetOpBtn">Reiniciar</button>
         </div>
@@ -1058,9 +1129,44 @@ details.advanced .field-grid{margin-top:12px}
             <div id="alerts" class="alerts"></div>
           </section>
 
+          
+          <!-- ==================== VISUALIZACIÓN GEOMÉTRICA & PROCESO ==================== -->
+          <section class="panel visual-panel" id="visualPanel" aria-labelledby="visualTitle">
+            <div class="panel-head">
+              <span id="visualTitle"><span class="num">[03]</span> Esquema geométrico &amp; proceso</span>
+              <span class="tag" id="visualTag">EN VIVO</span>
+            </div>
+            <div class="visual-wrap" id="visualWrap">
+              <div id="visualSvgBox"></div>
+              <div class="visual-legend" id="visualLegend"></div>
+            </div>
+          </section>
+
           <section class="panel" aria-labelledby="loadsTitle">
             <div class="panel-head"><span id="loadsTitle"><span class="num">[03]</span> Carga de máquina</span><span class="tag">LÍMITES</span></div>
             <div class="load-list" id="loadBars"></div>
+          </section>
+
+          
+          <!-- ==================== GENERADOR DE CÓDIGO G & CICLOS CNC ==================== -->
+          <section class="panel gcode-panel" id="gcodePanel" aria-labelledby="gcodeTitle">
+            <div class="panel-head">
+              <span id="gcodeTitle"><span class="num">[04]</span> Generador de Código G &amp; Ciclos CNC</span>
+              <span class="tag">CNC EXPORT</span>
+            </div>
+            <div class="gcode-header-bar">
+              <div class="gcode-dialects" id="gcodeDialects">
+                <button type="button" class="gcode-dialect-btn active" data-dialect="fanuc">Fanuc / Haas</button>
+                <button type="button" class="gcode-dialect-btn" data-dialect="siemens">Siemens</button>
+                <button type="button" class="gcode-dialect-btn" data-dialect="heidenhain">Heidenhain</button>
+              </div>
+              <div style="font-size:10px;color:var(--muted);font-family:var(--font-mono)">Ciclos listos para máquina</div>
+            </div>
+            <pre class="gcode-code-box" id="gcodeBox"><code>( Generando código G... )</code></pre>
+            <div class="gcode-actions">
+              <button class="btn btn-primary btn-sm" type="button" id="copyGcodeBtn">Copiar Código G</button>
+              <button class="btn btn-ghost btn-sm" type="button" id="downloadNcBtn">Descargar archivo .NC</button>
+            </div>
           </section>
 
           <section class="panel" aria-labelledby="formulasTitle">
@@ -1071,22 +1177,24 @@ details.advanced .field-grid{margin-top:12px}
           </section>
 
           <div class="result-actions">
+            <button class="btn btn-primary" type="button" id="setupSheetBtn">Hoja de Taller (Setup)</button>
             <button class="btn btn-ghost" type="button" id="copyBtn">Copiar resumen</button>
-            <button class="btn btn-ghost" type="button" id="printBtn">Imprimir / PDF</button>
+            <button class="btn btn-ghost" type="button" id="copyShareBtn">Copiar enlace</button>
+            <button class="btn btn-ghost" type="button" id="printBtn">Imprimir cálculo</button>
             <button class="btn btn-primary" type="button" id="waResultBtn">Consultar por WhatsApp</button>
             <button class="btn btn-ghost" type="button" id="saveBtn">Guardar en historial</button>
           </div>
 
           <div class="result-promo">
             <div>
-              <div class="eyebrow">[ Página web oficial ]</div>
+              <div class="eyebrow">[ Asesoría Técnica Directa ]</div>
               <h4>¿Necesitas validar estos parámetros en máquina?</h4>
-              <p>Optimización de código G, programación CAM y acompañamiento en planta. Hasta 35% menos tiempo de ciclo. Portafolio y contacto en la página web.</p>
+              <p>Optimización de código G, programación CAM y acompañamiento en planta. Hasta 35% menos tiempo de ciclo. Escríbeme directamente por WhatsApp.</p>
             </div>
-            <a class="btn btn-primary btn-sm site-link" href="#" target="_blank" rel="noopener noreferrer">Visitar la página web ↗</a>
+            <a class="btn btn-primary btn-sm wa-link" href="#" target="_blank" rel="noopener noreferrer">Contactar por WhatsApp ↗</a>
           </div>
 
-          <div class="result-note">Cálculo de referencia. Verifique rigidez, refrigeración, desgaste y límites reales antes de mecanizar. <a class="site-link" href="#" target="_blank" rel="noopener noreferrer">Soluciones en Mecanizado CNC</a> · Ing. Nestor A. Gamez L.</div>
+          <div class="result-note">Cálculo de referencia. Verifique rigidez, refrigeración, desgaste y límites reales antes de mecanizar. Soluciones en Mecanizado CNC · Ing. Nestor A. Gamez L. · WhatsApp: +57 305 291 2936</div>
         </div>
       </div>
 
@@ -1096,8 +1204,7 @@ details.advanced .field-grid{margin-top:12px}
           <div class="foot-note">Calculadora de parámetros de corte desarrollada para clientes y colegas del taller. Cálculo 100% local, sin almacenamiento externo.</div>
         </div>
         <div class="foot-links">
-          <a class="site-link" href="#" target="_blank" rel="noopener noreferrer">Soluciones en Mecanizado ↗</a>
-          <a class="wa-link" href="#" target="_blank" rel="noopener noreferrer">WhatsApp ↗</a>
+          <a class="wa-link" href="#" target="_blank" rel="noopener noreferrer">WhatsApp: +57 305 291 2936 ↗</a>
           <a href="#menu">Menú</a>
         </div>
       </footer>
@@ -1115,10 +1222,7 @@ details.advanced .field-grid{margin-top:12px}
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h5M8 16h8"/></svg>
     Tabla
   </button>
-  <a class="site-link accent" href="#" target="_blank" rel="noopener noreferrer">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 3h7v7M21 3l-9 9"/><path d="M10 5H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-5"/></svg>
-    Sitio web
-  </a>
+
   <a class="wa-link accent" href="#" target="_blank" rel="noopener noreferrer">
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
     WhatsApp
@@ -1165,8 +1269,8 @@ details.advanced .field-grid{margin-top:12px}
         <div class="callout"><b>Antes de mecanizar:</b> valide la potencia y el torque reales, respete los límites del husillo, use protección ocular y auditiva, verifique la sujeción y haga una primera pasada de prueba. Los resultados no reemplazan el criterio del programador ni las normas de seguridad de la planta.</div>
         <p>Herramienta gratuita desarrollada por el <b>Ing. Nestor Alonso Gamez Lombana</b> — Soluciones en Mecanizado CNC, Cali, Valle del Cauca.</p>
         <div class="about-links">
-          <a class="btn btn-primary btn-sm site-link" href="#" target="_blank" rel="noopener noreferrer">Visitar sitio web ↗</a>
-          <a class="btn btn-ghost btn-sm wa-link" href="#" target="_blank" rel="noopener noreferrer">Asesoría por WhatsApp</a>
+          
+          <a class="btn btn-primary btn-sm wa-link" href="#" target="_blank" rel="noopener noreferrer">Asesoría por WhatsApp (+57 305 291 2936)</a>
         </div>
       </section>
     </div>
@@ -1194,14 +1298,36 @@ details.advanced .field-grid{margin-top:12px}
         <div class="row"><b>Privacidad</b><span>Todo el cálculo ocurre en su navegador. No se envían datos a servidores.</span></div>
         <div class="row"><b>Historial</b><span>Se guarda solo en este dispositivo si usted pulsa “Guardar en historial”.</span></div>
         <div class="row"><b>Autor</b><span>Ing. Nestor Alonso Gamez Lombana · Soluciones en Mecanizado CNC · Cali, Valle del Cauca.</span></div>
-        <div class="row"><b>Contacto</b><span>+57 305 291 2936 · solucionescnc.co</span></div>
+        <div class="row"><b>Contacto</b><span>WhatsApp / Cel: +57 305 291 2936 · Cali, Valle del Cauca</span></div>
       </div>
       <div class="about-links">
-        <a class="btn btn-primary btn-sm site-link" href="#" target="_blank" rel="noopener noreferrer">Visitar sitio web ↗</a>
-        <a class="btn btn-ghost btn-sm wa-link" href="#" target="_blank" rel="noopener noreferrer">WhatsApp directo</a>
+        
+        <a class="btn btn-primary btn-sm wa-link" href="#" target="_blank" rel="noopener noreferrer">WhatsApp directo (+57 305 291 2936)</a>
       </div>
-      <div class="callout"><b>Regalo técnico para clientes:</b> si esta herramienta le ahorra tiempo, compártala con su equipo y visite el sitio para conocer los servicios de asesoría, programación CAM y optimización de código G.</div>
+      <div class="callout"><b>Regalo técnico para clientes:</b> si esta herramienta le ahorra tiempo, compártala con su equipo y contácteme por WhatsApp para asesoría técnica, programación CAM y optimización de código G en planta.</div>
       <p style="margin-top:12px;color:var(--muted);font-family:var(--font-mono);font-size:8px;letter-spacing:.04em;text-transform:uppercase">© <span id="yearNow">2026</span> Soluciones en Mecanizado CNC. Todos los derechos reservados.</p>
+    </div>
+  </div>
+</dialog>
+
+
+<!-- ==================== DIÁLOGO HOJA DE TALLER (SETUP SHEET) ==================== -->
+<dialog id="setupSheetDialog" class="setup-modal" aria-labelledby="setupTitle">
+  <div class="dialog-shell" style="max-width:880px">
+    <div class="dialog-head no-print">
+      <div>
+        <div class="eyebrow">[ Documentación de Producción ]</div>
+        <h2 id="setupTitle">Hoja de Taller &amp; Setup CNC</h2>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="btn btn-primary btn-sm" type="button" id="printSetupBtn">Imprimir / Guardar PDF</button>
+        <button class="dialog-close" type="button" data-close="setupSheetDialog" aria-label="Cerrar">×</button>
+      </div>
+    </div>
+    <div class="dialog-body" style="padding:0">
+      <div class="setup-sheet-wrap" id="setupSheetContent">
+        <!-- Renderizado dinámicamente -->
+      </div>
     </div>
   </div>
 </dialog>
@@ -1220,7 +1346,7 @@ details.advanced .field-grid{margin-top:12px}
    Cálculo 100% local. Sin dependencias, sin peticiones externas.
    ============================================================ */
 
-const SITE_URL = 'https://ngamezlombana.github.io/Soluciones-Mecanizado/?v=5&utm_source=paracorte&utm_medium=app&utm_campaign=calculadora_clientes';
+// Versión Directa WhatsApp — Ing. Nestor Alonso Gamez Lombana (+57 305 291 2936)
 const WA_NUMBER = '573052912936';
 const WA_BASE = 'https://wa.me/' + WA_NUMBER;
 const WA_GENERIC = WA_BASE + '?text=' + encodeURIComponent('Hola Ing. Nestor, usé la calculadora ParaCorte y necesito asesoría técnica en mecanizado CNC.');
@@ -1331,7 +1457,10 @@ const ICONS = {
   threading: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h18"/><path d="M6 4l4 16M14 4l4 16"/><path d="M10 2h4"/></svg>',
   tapping: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M8 2h8v5H8z"/><path d="M10 7v11l2 4 2-4V7"/><path d="M9 10h6M9 13h6M9 16h6M9 19h6"/><path d="M12 2v3"/></svg>',
   ballnose: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 2v9"/><circle cx="12" cy="15" r="5"/><path d="M7 5l4 2M17 5l-4 2M5 9l3 1M19 9l-3 1"/><path d="M6 21h12"/></svg>',
-  drilling: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 2v12"/><path d="M9 14l3 7 3-7"/><path d="M8 5l4 2M16 5l-4 2M8 9l4 2M16 9l-4 2"/><path d="M5 21h14"/></svg>'
+  drilling: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 2v12"/><path d="M9 14l3 7 3-7"/><path d="M8 5l4 2M16 5l-4 2M8 9l4 2M16 9l-4 2"/><path d="M5 21h14"/></svg>',
+  grooving: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M11 5v7h2V5"/><path d="M3 12h8M13 12h8"/><circle cx="12" cy="12" r="1.5"/></svg>',
+  reaming: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M10 2h4v4h-4z"/><path d="M10 6v14l2 2 2-2V6"/><line x1="12" y1="6" x2="12" y2="20"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="16" y2="18"/></svg>',
+  chamfering: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 3h14v4H5z"/><path d="M7 7l5 14 5-14"/><line x1="12" y1="7" x2="12" y2="21"/><line x1="9.5" y1="14" x2="14.5" y2="14"/></svg>'
 };
 
 /* ------------------------------------------------------------
@@ -1352,6 +1481,7 @@ const OPS = {
       F('gamma','Ángulo de desprendimiento','γ','°',6,{min:-20,max:30,step:1,required:true,advanced:true}),
       F('re','Radio de punta','rε','mm',0.8,{min:0.05,step:0.05,required:true,advanced:true}),
       F('len','Longitud de mecanizado','L','mm',100,{min:0,step:1,advanced:true}),
+      F('overhang','Voladizo de herramienta','Lvol','mm',35,{min:5,step:1,advanced:true}),
       F('passes','N.º de pasadas','i','',1,{min:1,step:1,advanced:true})
     ]
   },
@@ -1370,6 +1500,7 @@ const OPS = {
       F('kr','Ángulo de entrada','κr','°',90,{min:10,max:100,step:1,required:true,advanced:true}),
       F('gamma','Ángulo de desprendimiento','γ','°',6,{min:-20,max:30,step:1,required:true,advanced:true}),
       F('len','Longitud de trayectoria','L','mm',200,{min:0,step:1,advanced:true}),
+      F('overhang','Voladizo de fresa','Lvol','mm',45,{min:5,step:1,advanced:true}),
       F('passes','N.º de pasadas','i','',1,{min:1,step:1,advanced:true})
     ]
   },
@@ -1432,6 +1563,50 @@ const OPS = {
       F('dwell','Permanencia en fondo','Q10','s',0.3,{min:0,step:0.1}),
       F('gamma','Ángulo de desprendimiento','γ','°',6,{min:-20,max:30,step:1,advanced:true})
     ]
+  },
+  grooving: {
+    num: '07', name: 'Tronzado y ranurado', short: 'Tronzado', icon: 'grooving', tag: 'TRONZADO',
+    desc: 'Corte radial exterior hasta centro o diámetro interior. Calcula RPM inicial y máxima, avance radial, fuerza tangencial, potencia pico y tiempo.',
+    cards: ['RPM','vf','Q','Pc','Mc','Tc'],
+    fields: [
+      F('dia','Diámetro exterior de la pieza','Dext','mm',50,{min:1,step:0.1,required:true}),
+      F('diaInt','Diámetro final o interior','Dint','mm',0,{min:0,step:0.1,required:true}),
+      F('bw','Ancho del inserto / cuchilla','bw','mm',3,{min:0.5,step:0.1,required:true}),
+      F('vc','Velocidad de corte','vc','m/min',140,{min:1,step:1,required:true,rec:'vc'}),
+      F('fn','Avance radial por revolución','fn','mm/rev',0.10,{min:0.01,step:0.01,required:true,rec:'fn'}),
+      F('overhang','Voladizo de la cuchilla','Lvol','mm',25,{min:5,step:1,advanced:true}),
+      F('gamma','Ángulo de desprendimiento','γ','°',6,{min:-20,max:30,step:1,advanced:true})
+    ]
+  },
+  reaming: {
+    num: '08', name: 'Escariado / rimado de precisión (H7)', short: 'Escariado H7', icon: 'reaming', tag: 'ESCARIADO',
+    desc: 'Acabado cilíndrico de alta tolerancia geométrica. Velocidad conservadora, avance sincronizado por labio, potencia suave y ciclo G85 sin inversión de giro.',
+    cards: ['RPM','vf','Q','Tc','Pc'],
+    fields: [
+      F('dia','Diámetro del escariador','D','mm',12,{min:1,step:0.1,required:true}),
+      F('z','Número de filos / labios','zc','filos',6,{min:2,max:16,step:1,required:true}),
+      F('vc','Velocidad de corte','vc','m/min',25,{min:1,step:1,required:true,rec:'vc'}),
+      F('fz','Avance por diente','fz','mm/d',0.035,{min:0.005,step:0.005,required:true,rec:'fz'}),
+      F('ap','Sobremedida radial previa','ap','mm',0.15,{min:0.02,step:0.02,required:true}),
+      F('depth','Profundidad del orificio','L','mm',30,{min:1,step:1,required:true}),
+      F('holes','N.º de orificios','N','',1,{min:1,step:1,required:true}),
+      F('overhang','Voladizo del escariador','Lvol','mm',50,{min:5,step:1,advanced:true})
+    ]
+  },
+  chamfering: {
+    num: '09', name: 'Chaflanado y avellanado cónico', short: 'Chaflán', icon: 'chamfering', tag: 'CHAFLÁN',
+    desc: 'Biselado de aristas con fresa cónica. Calcula el diámetro medio efectivo (Deff) para calibrar RPM y evitar sobrevelocidad o frotamiento.',
+    cards: ['RPM','vf','Deff','ap','Tc'],
+    fields: [
+      F('dia1','Diámetro menor del chaflán','D1','mm',10,{min:0,step:0.1,required:true}),
+      F('dia2','Diámetro mayor del chaflán','D2','mm',14,{min:0.1,step:0.1,required:true}),
+      F('angle','Ángulo del bisel (respecto al eje)','α','°',45,{min:15,max:75,step:1,required:true}),
+      F('z','Número de dientes','zc','filos',3,{min:1,max:12,step:1,required:true}),
+      F('vc','Velocidad de corte','vc','m/min',180,{min:1,step:1,required:true,rec:'vc'}),
+      F('fz','Avance por diente','fz','mm/d',0.06,{min:0.005,step:0.005,required:true,rec:'fz'}),
+      F('len','Longitud de contorno perimetral','L','mm',150,{min:0,step:1,advanced:true}),
+      F('passes','N.º de pasadas','i','',1,{min:1,step:1,advanced:true})
+    ]
   }
 };
 
@@ -1460,7 +1635,13 @@ const FORMULAS = {
   thread_depth: { t: 'Profundidad del perfil métrico 60°', eq: 'h ≈ 0,6134 · P', note: 'Profundidad radial teórica del filete; distribúyala en varias pasadas.' },
   tap_drill: { t: 'Broca previa al machuelo', eq: 'D<sub>broca</sub> ≈ D<sub>nominal</sub> − P', note: 'Relación práctica para machuelos de corte. Para machuelos de formado, use el diámetro del fabricante.' },
   peck: { t: 'Secuencia de picoteo', eq: 'n<sub>pecks</sub> ≈ ⌊2·S<sub>n</sub> / (a<sub>1</sub> + a<sub>n</sub>)⌋ ; secuencia aritmética decreciente con residuo distribuido', note: 'El último picoteo conserva el tamaño mínimo a1; el residuo se reparte en los anteriores.' },
-  time: { t: 'Tiempo de corte neto', eq: 'T<sub>c</sub> ≈ recorrido / v<sub>f</sub>', note: 'No incluye aceleraciones, cambios de herramienta, retrápidos ni pausas del operario.' }
+  time: { t: 'Tiempo de corte neto', eq: 'T<sub>c</sub> ≈ recorrido / v<sub>f</sub>', note: 'No incluye aceleraciones, cambios de herramienta, retrápidos ni pausas del operario.' },
+  mrr_groove: { t: 'Remoción en tronzado', eq: 'Q = b<sub>w</sub> · f<sub>n</sub> · v<sub>c</sub>', note: 'Q en cm³/min con bw en mm, fn en mm/rev y vc en m/min.' },
+  pc_groove: { t: 'Potencia neta en tronzado', eq: 'P<sub>c</sub> = (F<sub>c</sub> · v<sub>c</sub>) / 60 000', note: 'Fc = kc · bw · fn. Resultado en kW.' },
+  mrr_ream: { t: 'Remoción en escariado', eq: 'Q = (π · D · a<sub>p</sub> · v<sub>f</sub>) / 1000', note: 'Q en cm³/min con ap como sobremedida radial.' },
+  deff_chamfer: { t: 'Diámetro efectivo medio — chaflán', eq: 'D<sub>eff</sub> = (D₁ + D₂) / 2', note: 'Usar siempre Deff para RPM; el diámetro exterior genera sobrevelocidad.' },
+  taylor_life: { t: 'Vida de herramienta (Modelo de Taylor)', eq: 'v<sub>c</sub> · T<sup>n</sup> = C  ⇒  T = (C / v<sub>c</sub>)<sup>1/n</sup>', note: 'n ≈ 0.25 para metal duro y 0.125 para HSS.' },
+  chatter_ratio: { t: 'Esbeltez y rigidez de herramienta', eq: 'R = L<sub>voladizo</sub> / D', note: 'Relaciones L/D > 4 inducen vibración regenerativa (chatter) y flexión severa.' }
 };
 
 /* ------------------------------------------------------------
@@ -1594,7 +1775,20 @@ function defaultsFor(op) {
     out.fn = nice(pick(r.drill, 0.4), 'feed');
     out.firstPeck = roundTo(Math.max(0.5, out.dia * 0.5), 1);
     out.lastPeck = roundTo(Math.max(0.2, out.dia * 0.1), 1);
-    out.retract = 2; out.dwell = 0.3; out.clearance = 2; out.gamma = 6;
+    out.retract = 2; out.dwell = 0.3; out.clearance = 2; out.gamma = 6; out.overhang = 60;
+  } else if (op === 'grooving') {
+    out.dia = 50; out.diaInt = 0; out.bw = 3;
+    out.vc = nice(pick(vcRange(op, mat, tool), 0.35), 'vc');
+    out.fn = nice(pick(r.fn, 0.22), 'feed');
+    out.overhang = 25; out.gamma = 6;
+  } else if (op === 'reaming') {
+    out.dia = 12; out.z = 6;
+    out.vc = nice(Math.max(8, pick(r.vc, 0.15) * 0.25), 'vc');
+    out.fz = 0.035; out.ap = 0.15; out.depth = 30; out.holes = 1; out.overhang = 50;
+  } else if (op === 'chamfering') {
+    out.dia1 = 10; out.dia2 = 14; out.angle = 45; out.z = 3;
+    out.vc = nice(pick(r.vc, 0.4), 'vc');
+    out.fz = 0.06; out.len = 150; out.passes = 1;
   }
   const Dref = op === 'ballnose'
     ? 2 * Math.sqrt(Math.max(0.0001, out.ap * (out.dia - out.ap)))
@@ -1603,6 +1797,19 @@ function defaultsFor(op) {
     const vcFeasible = (state.machine.maxRpm * 0.8 * Math.PI * Dref) / 1000;
     if (out.vc > vcFeasible) out.vc = nice(vcFeasible, 'vc');
   }
+
+  // Si el sistema está en imperial, convertir defaults de salida a pulgadas y SFM
+  if (state.unit === 'imperial') {
+    ['dia', 'dia1', 'dia2', 'diaInt', 'bw', 'ap', 'ae', 're', 'len', 'depth', 'overhang', 'firstPeck', 'lastPeck', 'retract', 'clearance'].forEach(k => {
+      if (out[k] !== undefined && isFinite(num(out[k]))) out[k] = roundTo(out[k] / 25.4, 3);
+    });
+    if (out.vc !== undefined && isFinite(num(out.vc))) out.vc = Math.round(out.vc * 3.28084);
+    ['fn', 'fz', 'hex'].forEach(k => {
+      if (out[k] !== undefined && isFinite(num(out[k]))) out[k] = roundTo(out[k] / 25.4, 4);
+    });
+    if (out.pitch !== undefined && isFinite(num(out.pitch))) out.pitch = roundTo(out.pitch / 25.4, 4);
+  }
+
   return out;
 }
 function applyRecommendations(op) {
@@ -1614,6 +1821,9 @@ function applyRecommendations(op) {
   if (op === 'milling') { vals.fz = d.fz; vals.hex = d.hex; vals.ap = d.ap; }
   if (op === 'ballnose') { vals.fz = d.fz; vals.hex = d.hex; }
   if (op === 'drilling') { vals.fn = d.fn; vals.firstPeck = d.firstPeck; vals.lastPeck = d.lastPeck; }
+  if (op === 'grooving') { vals.fn = d.fn; }
+  if (op === 'reaming') { vals.fz = d.fz; vals.ap = d.ap; }
+  if (op === 'chamfering') { vals.fz = d.fz; }
 }
 
 /* ------------------------------------------------------------
@@ -1623,6 +1833,8 @@ let state = {
   op: 'turning',
   material: 'steel_carbon',
   tool: 'carbide',
+  unit: 'metric',
+  gcodeDialect: 'fanuc',
   values: {},
   meta: {},
   machine: { preset: 'vmc', power: 15, torque: 120, maxRpm: 10000 },
@@ -1717,11 +1929,13 @@ function visibleFields(op, vals) {
 }
 function checkValues(op, vals) {
   const missing = [];
+  const isImp = state.unit === 'imperial';
   for (const f of visibleFields(op, vals)) {
     const v = num(vals[f.key]);
     if (!f.required) continue;
     if (!isFinite(v)) { missing.push({ key: f.key, label: f.label, sym: f.sym }); continue; }
-    if (f.min !== undefined && v < f.min) { missing.push({ key: f.key, label: f.label, sym: f.sym }); continue; }
+    const minVal = f.min !== undefined ? (isImp && (f.unit === 'mm' || f.unit === 'mm/rev' || f.unit === 'mm/d') ? f.min / 25.4 : f.min) : undefined;
+    if (minVal !== undefined && v < minVal) { missing.push({ key: f.key, label: f.label, sym: f.sym }); continue; }
     if (f.min === undefined && v === 0) { missing.push({ key: f.key, label: f.label, sym: f.sym }); }
   }
   return missing;
@@ -1749,6 +1963,86 @@ function subDia(mm) { return '≈ ' + fmt(mm / MM_PER_IN, 3) + ' in'; }
    hasta el último. El residuo de redondeo se reparte en los
    picoteos anteriores y el último conserva el tamaño mínimo.
    ------------------------------------------------------------ */
+
+/* ------------------------------------------------------------
+   CONVERSIONES Y GESTIÓN DUAL DE UNIDADES (MÉTRICO / IMPERIAL)
+   ------------------------------------------------------------ */
+const MM_TO_IN = 1 / 25.4;
+const IN_TO_MM = 25.4;
+const M_TO_FT = 3.28084;
+const FT_TO_M = 1 / 3.28084;
+const KW_TO_HP = 1.34102;
+const HP_TO_KW = 1 / 1.34102;
+const NM_TO_FTLB = 0.737562;
+const FTLB_TO_NM = 1 / 0.737562;
+const CM3_TO_IN3 = 1 / 16.387064;
+const IN3_TO_CM3 = 16.387064;
+
+function displayUnit(baseUnit, key) {
+  if (state.unit !== 'imperial') return baseUnit;
+  if (key === 'vc' || baseUnit === 'm/min') return 'SFM';
+  if (key === 'fn' || baseUnit === 'mm/rev') return 'in/rev';
+  if (key === 'fz' || baseUnit === 'mm/d') return 'in/d';
+  if (baseUnit === 'mm') return 'in';
+  if (baseUnit === 'cm³/min') return 'in³/min';
+  if (baseUnit === 'kW') return 'HP';
+  if (baseUnit === 'N·m') return 'ft·lbf';
+  return baseUnit;
+}
+
+function displaySym(baseSym, key) {
+  if (state.unit !== 'imperial') return baseSym;
+  if (key === 'vc') return 'SFM';
+  return baseSym;
+}
+
+function syncUnitUI() {
+  const switchBox = el('unitSwitch');
+  if (switchBox) {
+    switchBox.querySelectorAll('.unit-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.unit === state.unit);
+    });
+  }
+}
+
+function toggleUnit(newUnit) {
+  if (state.unit === newUnit) return;
+  const oldUnit = state.unit;
+  state.unit = newUnit;
+
+  // Convertir todas las operaciones guardadas
+  for (const opKey of Object.keys(state.values)) {
+    const vals = state.values[opKey];
+    if (!vals) continue;
+    if (newUnit === 'imperial' && oldUnit === 'metric') {
+      ['dia', 'dia1', 'dia2', 'diaInt', 'bw', 'ap', 'ae', 're', 'len', 'depth', 'overhang', 'firstPeck', 'lastPeck', 'retract', 'clearance'].forEach(k => {
+        if (vals[k] !== undefined && isFinite(num(vals[k]))) vals[k] = roundTo(vals[k] / 25.4, 3);
+      });
+      if (vals.vc !== undefined && isFinite(num(vals.vc))) vals.vc = Math.round(vals.vc * 3.28084);
+      ['fn', 'fz', 'hex'].forEach(k => {
+        if (vals[k] !== undefined && isFinite(num(vals[k]))) vals[k] = roundTo(vals[k] / 25.4, 4);
+      });
+      if (vals.pitch !== undefined && isFinite(num(vals.pitch))) vals.pitch = roundTo(vals.pitch / 25.4, 4);
+    } else if (newUnit === 'metric' && oldUnit === 'imperial') {
+      ['dia', 'dia1', 'dia2', 'diaInt', 'bw', 'ap', 'ae', 're', 'len', 'depth', 'overhang', 'firstPeck', 'lastPeck', 'retract', 'clearance'].forEach(k => {
+        if (vals[k] !== undefined && isFinite(num(vals[k]))) vals[k] = roundTo(vals[k] * 25.4, 2);
+      });
+      if (vals.vc !== undefined && isFinite(num(vals.vc))) vals.vc = Math.round(vals.vc / 3.28084);
+      ['fn', 'fz', 'hex'].forEach(k => {
+        if (vals[k] !== undefined && isFinite(num(vals[k]))) vals[k] = roundTo(vals[k] * 25.4, 3);
+      });
+      if (vals.pitch !== undefined && isFinite(num(vals.pitch))) vals.pitch = roundTo(vals.pitch * 25.4, 2);
+    }
+  }
+
+  syncUnitUI();
+  saveSession();
+  renderMaterialSummary(false);
+  renderFields();
+  runCalc();
+  toast('Unidades cambiadas a: ' + (newUnit === 'imperial' ? 'Imperial (pulgadas / SFM)' : 'Métrico (mm / m/min)'));
+}
+
 function peckSequence(total, first, last) {
   total = Math.max(0.05, num(total));
   last = Math.max(0.05, num(last));
@@ -1801,6 +2095,17 @@ function calculate() {
   const missing = checkValues(op, v);
   if (missing.length) return { ok: false, missing };
 
+  const isImp = state.unit === 'imperial';
+
+  // ============================================================
+  // NORMALIZACIÓN DE ENTRADAS AL SISTEMA INTERNACIONAL (MÉTRICO)
+  // Permite que el motor físico-matemático (Kienzle, divisores 60e3/60e6)
+  // trabaje con precisión exacta sin importar el sistema de entrada.
+  // ============================================================
+  const normL = val => isImp ? (num(val) * 25.4) : num(val);
+  const normVc = val => isImp ? (num(val) * 0.3048) : num(val); // 1 ft = 0.3048 m
+  const normFeed = val => isImp ? (num(val) * 25.4) : num(val);
+
   const gamma = num(v.gamma);
   const gammaFactor = isFinite(gamma) ? Math.max(0.5, 1 - gamma / 100) : 1;
   const kc11 = num(mat.kc11);
@@ -1812,37 +2117,76 @@ function calculate() {
   let raw = {}, cards = [], insights = [], alerts = [], loads = [], formulas = [], peck = null, time = null, extra = {}, peckNote = '';
 
   const kienzle = (hm) => kc11 * Math.pow(Math.max(hm, 0.0001), -mc) * gammaFactor;
+
   const addMachineAlerts = (n, Pc, Mc) => {
     if (n > maxRpm) {
-      alerts.push(makeAlert('critical', 'RPM por encima del límite', 'El husillo calculado (' + fmt(n, 0) + ' rpm) supera el máximo configurado (' + fmt(maxRpm, 0) + ' rpm). Reduzca vc o use una herramienta de mayor diámetro.'));
+      alerts.push(makeAlert('critical', 'RPM por encima del límite', 'El husillo calculado (' + fmt(n, 0) + ' rpm) supera el máximo (' + fmt(maxRpm, 0) + ' rpm). Reduzca vc o use una herramienta de mayor diámetro.'));
     } else if (n > maxRpm * 0.85) {
-      alerts.push(makeAlert('warning', 'Husillo cerca del límite', 'El cálculo usa ' + fmt((n / maxRpm) * 100, 0) + '% de las RPM máximas. Verifique el rango real y el balanceo del portaherramienta.'));
+      alerts.push(makeAlert('warning', 'Husillo cerca del límite', 'El cálculo usa ' + fmt((n / maxRpm) * 100, 0) + '% de las RPM máximas. Verifique el balanceo del portaherramienta.'));
     }
     if (Pc > maxPower) {
-      alerts.push(makeAlert('critical', 'Potencia insuficiente', 'La potencia neta (' + fmt(Pc, 2) + ' kW) supera la disponible (' + fmt(maxPower, 2) + ' kW). Reduzca ap, ae, vf o use una máquina con más potencia.'));
+      alerts.push(makeAlert('critical', 'Potencia insuficiente', 'La potencia neta (' + fmt(Pc, 2) + ' kW / ' + fmt(Pc * 1.34102, 2) + ' HP) supera la disponible (' + fmt(maxPower, 2) + ' kW).'));
     } else if (Pc > maxPower * 0.8) {
-      alerts.push(makeAlert('warning', 'Potencia al ' + fmt((Pc / maxPower) * 100, 0) + '%', 'El motor trabajará cerca de su límite. Deje margen para aceleraciones, desgaste y variación del material.'));
+      alerts.push(makeAlert('warning', 'Potencia al ' + fmt((Pc / maxPower) * 100, 0) + '%', 'Cerca del límite nominal de máquina. Deje margen para aceleraciones y desgaste.'));
     }
     if (Mc > maxTorque) {
-      alerts.push(makeAlert('critical', 'Torque por encima del límite', 'El torque estimado (' + fmt(Mc, 1) + ' N·m) supera el máximo (' + fmt(maxTorque, 1) + ' N·m). El husillo puede perder sincronismo o clavarse.'));
+      alerts.push(makeAlert('critical', 'Torque por encima del límite', 'El torque estimado (' + fmt(Mc, 1) + ' N·m / ' + fmt(Mc * 0.737562, 1) + ' ft·lbf) supera el máximo disponible (' + fmt(maxTorque, 1) + ' N·m).'));
     } else if (Mc > maxTorque * 0.8) {
-      alerts.push(makeAlert('warning', 'Torque al ' + fmt((Mc / maxTorque) * 100, 0) + '%', 'Cerca del límite de torque. En roscado y taladrado profundo esto es especialmente crítico.'));
+      alerts.push(makeAlert('warning', 'Torque al ' + fmt((Mc / maxTorque) * 100, 0) + '%', 'Cerca del límite de torque del husillo.'));
     }
   };
+
   const addLoads = (n, Pc, Mc) => {
     loads = [
-      Pc > 0 ? { label: 'Potencia neta de corte', value: Pc, limit: maxPower, unit: 'kW', pct: (Pc / maxPower) * 100 } : null,
-      Mc > 0 ? { label: 'Torque en el husillo', value: Mc, limit: maxTorque, unit: 'N·m', pct: (Mc / maxTorque) * 100 } : null,
+      Pc > 0 ? { label: isImp ? 'Potencia de corte' : 'Potencia neta de corte', value: isImp ? Pc * 1.34102 : Pc, limit: isImp ? maxPower * 1.34102 : maxPower, unit: isImp ? 'HP' : 'kW', pct: (Pc / maxPower) * 100 } : null,
+      Mc > 0 ? { label: isImp ? 'Torque husillo' : 'Torque en el husillo', value: isImp ? Mc * 0.737562 : Mc, limit: isImp ? maxTorque * 0.737562 : maxTorque, unit: isImp ? 'ft·lbf' : 'N·m', pct: (Mc / maxTorque) * 100 } : null,
       { label: 'Velocidad del husillo', value: n, limit: maxRpm, unit: 'rpm', pct: (n / maxRpm) * 100 }
     ].filter(Boolean).map(l => Object.assign(l, { pct: isFinite(l.pct) ? l.pct : 0, cls: l.pct >= 100 ? 'crit' : l.pct >= 80 ? 'warn' : '' }));
   };
-  const recVc = vcRange(op, mat, tool);
+
+  // Constructores de tarjetas adaptados a unidades
+  function cardRpm(nVal, subText) {
+    return card('Velocidad del husillo', fmt(nVal, 0), 'rpm', subText, { hero: true, idx: '01' });
+  }
+  function cardFeed(vf_mm, fVal, fLabel) {
+    if (isImp) {
+      const vf_ipm = vf_mm / 25.4;
+      return card('Avance lineal', fmt(vf_ipm, 2), 'in/min', '≈ ' + fmt(vf_mm, 1) + ' mm/min · ' + fLabel + ' ' + fmt(fVal, 4) + ' in', { accent: true, idx: '02' });
+    }
+    return card('Avance lineal', fmt(vf_mm, 1), 'mm/min', subFeed(vf_mm) + ' · ' + fLabel + ' ' + fmt(fVal, 3), { accent: true, idx: '02' });
+  }
+  function cardMrr(Q_cm3) {
+    if (isImp) {
+      const Q_in3 = Q_cm3 / 16.387064;
+      return card('Remoción de material', fmt(Q_in3, 2), 'in³/min', '≈ ' + fmt(Q_cm3, 2) + ' cm³/min', { idx: '03' });
+    }
+    return card('Remoción de material', fmt(Q_cm3, 2), 'cm³/min', subMrr(Q_cm3), { idx: '03' });
+  }
+  function cardPower(Pc_kW) {
+    if (isImp) {
+      const Pc_hp = Pc_kW * 1.34102;
+      return card('Potencia neta', fmt(Pc_hp, 2), 'HP', '≈ ' + fmt(Pc_kW, 2) + ' kW', { idx: '04' });
+    }
+    return card('Potencia neta', fmt(Pc_kW, 2), 'kW', subPower(Pc_kW), { idx: '04' });
+  }
+  function cardTorque(Mc_Nm) {
+    if (isImp) {
+      const Mc_ftlb = Mc_Nm * 0.737562;
+      return card('Torque en husillo', fmt(Mc_ftlb, 1), 'ft·lbf', '≈ ' + fmt(Mc_Nm, 1) + ' N·m', { idx: '05' });
+    }
+    return card('Torque en husillo', fmt(Mc_Nm, 1), 'N·m', subTorque(Mc_Nm), { idx: '05' });
+  }
+  function cardTime(Tc_min, info) {
+    return card('Tiempo de corte neto', formatTimeShort(Tc_min), '', info + ' · ' + fmt(Tc_min, 2) + ' min', { idx: '06' });
+  }
 
   /* ================= 01 · TORNEADO ================= */
   if (op === 'turning') {
-    const D = num(v.dia), vc = num(v.vc), fn = num(v.fn), ap = num(v.ap);
-    const kr = num(v.kr), re = Math.max(num(v.re), 0.01), L = Math.max(0, num(v.len)), passes = Math.max(1, num(v.passes));
-    if (ap > D * 0.5) alerts.push(makeAlert('warning', 'Profundidad axial elevada', 'ap = ' + fmt(ap, 2) + ' mm supera el 50% del diámetro. Verifique rigidez de la pieza y posible flexión.'));
+    const D = normL(v.dia), vc = normVc(v.vc), fn = normFeed(v.fn), ap = normL(v.ap);
+    const kr = num(v.kr), re = Math.max(normL(v.re), 0.01), L = Math.max(0, normL(v.len)), passes = Math.max(1, num(v.passes));
+    const Lv = normL(v.overhang) || (D * 2);
+
+    if (ap > D * 0.5) alerts.push(makeAlert('warning', 'Profundidad axial elevada', 'ap supera el 50% del diámetro de la pieza. Verifique rigidez y posible flexión.'));
     const n = (1000 * vc) / (Math.PI * D);
     const vf = fn * n;
     const Q = ap * fn * vc;
@@ -1853,37 +2197,36 @@ function calculate() {
     const Rt = (fn * fn / (8 * re)) * 1000;
     const Tc = (L * passes) / vf;
     time = Tc;
-    raw = { n, vf, Q, hm, kc, Pc, Mc, Rt, Tc, ae: null, ap, D, Dcap: D, hex: fn, fz: fn, toolLifeHint: null };
+    const chatterRatio = Lv / D;
+    raw = { n, vf, Q, hm, kc, Pc, Mc, Rt, Tc, ae: null, ap, D, Dcap: D, hex: fn, fz: fn, chatterRatio, toolLifeHint: null };
 
     cards = [
-      card('Velocidad del husillo', fmt(n, 0), 'rpm', 'n = 1000 · vc / (π · D)', { hero: true, idx: '01' }),
-      card('Avance lineal', fmt(vf, 1), 'mm/min', subFeed(vf) + ' · fn ' + fmt(fn, 3), { accent: true, idx: '02' }),
-      card('Remoción de material', fmt(Q, 2), 'cm³/min', subMrr(Q), { idx: '03' }),
-      card('Potencia neta', fmt(Pc, 2), 'kW', subPower(Pc), { idx: '04' }),
-      card('Torque', fmt(Mc, 1), 'N·m', subTorque(Mc), { idx: '05' }),
-      card('Tiempo de corte neto', formatTimeShort(Tc), '', fmt(passes, 0) + ' pasada(s) · L ' + fmt(L, 0) + ' mm · ' + fmt(Tc, 2) + ' min', { idx: '06' })
+      cardRpm(n, isImp ? 'RPM = (SFM · 3.82) / D' : 'n = 1000 · vc / (π · D)'),
+      cardFeed(vf, isImp ? num(v.fn) : fn, 'fn'),
+      cardMrr(Q),
+      cardPower(Pc),
+      cardTorque(Mc),
+      cardTime(Tc, fmt(passes, 0) + ' pasada(s) · L ' + (isImp ? fmt(num(v.len), 2) + ' in' : fmt(L, 0) + ' mm'))
     ];
     insights = [
-      insight('Espesor medio', fmt(hm, 3) + ' mm', 'fn · sin κr = ' + fmt(fn, 3) + ' · sin ' + fmt(kr, 0) + '°'),
+      insight('Espesor medio', isImp ? fmt(hm / 25.4, 4) + ' in' : fmt(hm, 3) + ' mm', 'fn · sin κr = ' + fmt(isImp ? num(v.fn) : fn, isImp ? 4 : 3) + ' · sin ' + fmt(kr, 0) + '°'),
       insight('Fuerza específica', fmt(kc, 0) + ' N/mm²', 'Kienzle: kc1.1 ' + fmt(kc11, 0) + ' · mc ' + fmt(mc, 2)),
-      insight('Rugosidad teórica Rt', fmt(Rt, 2) + ' µm', 'fn² / (8 · rε), con rε ' + fmt(re, 2) + ' mm'),
-      insight('Diámetro de trabajo', fmt(D, 1) + ' mm', subDia(D)),
-      insight('Corte por revolución', fmt(fn, 3) + ' mm/rev', 'Relación de avance ' + fmt(fn / re, 3) + ' · fn/rε')
+      insight('Rugosidad teórica', isImp ? fmt(Rt / 0.0254, 0) + ' µin' : fmt(Rt, 2) + ' µm', 'fn² / (8 · rε), con rε ' + (isImp ? fmt(num(v.re), 3) + ' in' : fmt(re, 2) + ' mm')),
+      insight('Diámetro pieza', isImp ? fmt(num(v.dia), 3) + ' in' : fmt(D, 1) + ' mm', isImp ? '≈ ' + fmt(D, 1) + ' mm' : subDia(D)),
+      insight('Avance / revolución', isImp ? fmt(num(v.fn), 4) + ' in/rev' : fmt(fn, 3) + ' mm/rev', 'Relación fn/rε = ' + fmt(fn / re, 2))
     ];
-    if (Rt > 12.5) alerts.push(makeAlert('warning', 'Rugosidad teórica alta', 'Rt ≈ ' + fmt(Rt, 1) + ' µm. Reduzca fn, aumente rε o use una pasada de acabado.'));
-    else if (Rt <= 1.6) alerts.push(makeAlert('ok', 'Acabado teórico fino', 'Rt ≈ ' + fmt(Rt, 1) + ' µm. Confirme con una pasada de prueba: la rugosidad real puede ser mayor por vibración o filo de aportación.'));
-    if (fn < 0.03) alerts.push(makeAlert('warning', 'Avance muy bajo', 'Un avance menor a 0,03 mm/rev favorece el frotamiento, el endurecimiento y el desgaste del filo.'));
-    if (vc < recVc[0] * 0.8 || vc > recVc[1] * 1.2) alerts.push(makeAlert('info', 'vc fuera del rango recomendado', 'Para ' + mat.name + ' con ' + TOOL_LABELS[tool] + ' el rango de partida es ' + rangeText(recVc, 'm/min') + '. Ajuste según catálogo y rigidez.'));
+    if (Rt > 12.5) alerts.push(makeAlert('warning', 'Rugosidad teórica alta', 'Rt ≈ ' + (isImp ? fmt(Rt / 0.0254, 0) + ' µin' : fmt(Rt, 1) + ' µm') + '. Reduzca fn o aumente el radio de punta rε.'));
+    else if (Rt <= 1.6) alerts.push(makeAlert('ok', 'Acabado teórico fino', 'Rt ≈ ' + (isImp ? fmt(Rt / 0.0254, 0) + ' µin' : fmt(Rt, 1) + ' µm') + '. Verifique pasada de prueba real.'));
     formulas = ['rpm', 'vf_turn', 'mrr_turn', 'hm_turn', 'kc', 'pc_turn', 'mc', 'rough', 'time'];
     addMachineAlerts(n, Pc, Mc); addLoads(n, Pc, Mc);
   }
 
   /* ================= 02 · FRESADO ================= */
   if (op === 'milling') {
-    const D = num(v.dia), z = Math.max(1, num(v.z)), vc = num(v.vc), ap = num(v.ap), ae = num(v.ae);
-    const kr = num(v.kr), L = Math.max(0, num(v.len)), passes = Math.max(1, num(v.passes));
-    if (ae > D) return { ok: false, invalid: 'La inmersión radial ae (' + fmt(ae, 2) + ' mm) no puede superar el diámetro de la fresa (' + fmt(D, 2) + ' mm).' };
-    if (ap > D * 2) alerts.push(makeAlert('warning', 'Profundidad axial muy alta', 'ap = ' + fmt(ap, 2) + ' mm para D = ' + fmt(D, 2) + ' mm. Verifique deflexión de la herramienta y estabilidad.'));
+    const D = normL(v.dia), z = Math.max(1, num(v.z)), vc = normVc(v.vc), ap = normL(v.ap), ae = normL(v.ae);
+    const kr = num(v.kr), L = Math.max(0, normL(v.len)), passes = Math.max(1, num(v.passes));
+    const Lv = normL(v.overhang) || (D * 3);
+    if (ae > D) return { ok: false, invalid: 'La inmersión radial ae (' + (isImp ? fmt(num(v.ae), 3) + ' in' : fmt(ae, 2) + ' mm') + ') no puede superar el diámetro (' + (isImp ? fmt(num(v.dia), 3) + ' in' : fmt(D, 2) + ' mm).') };
     const n = (1000 * vc) / (Math.PI * D);
     const ratio = clamp(ae / D, 0.0001, 0.9999);
     let ctfRad = ratio < 0.5 ? 1 / (2 * Math.sqrt(ratio * (1 - ratio))) : 1;
@@ -1891,8 +2234,8 @@ function calculate() {
     const ctfAx = 1 / sinKr;
     const ctf = ctfRad * ctfAx;
     let fzAdj, hexEff;
-    if (v.feedMode === 'fz') { fzAdj = num(v.fz); hexEff = fzAdj / ctf; }
-    else { hexEff = num(v.hex); fzAdj = hexEff * ctf; }
+    if (v.feedMode === 'fz') { fzAdj = normFeed(v.fz); hexEff = fzAdj / ctf; }
+    else { hexEff = normFeed(v.hex); fzAdj = hexEff * ctf; }
     const vf = fzAdj * z * n;
     const Q = (ae * ap * vf) / 1000;
     const hm = fzAdj * sinKr * Math.sqrt(ratio);
@@ -1901,114 +2244,98 @@ function calculate() {
     const Mc = (Pc * 30000) / (Math.PI * n);
     const Tc = (L * passes) / vf;
     time = Tc;
-    raw = { n, vf, Q, hm, kc, Pc, Mc, Tc, ae, ap, D, Dcap: D, hex: hexEff, fz: fzAdj, ctfRad, ctfAx, ctf };
+    const chatterRatio = Lv / D;
+    raw = { n, vf, Q, hm, kc, Pc, Mc, Tc, ae, ap, D, Dcap: D, hex: hexEff, fz: fzAdj, ctfRad, ctfAx, ctf, chatterRatio };
 
     cards = [
-      card('Velocidad del husillo', fmt(n, 0), 'rpm', 'n = 1000 · vc / (π · Dc)', { hero: true, idx: '01' }),
-      card('Avance de mesa', fmt(vf, 1), 'mm/min', subFeed(vf) + ' · fz,aj ' + fmt(fzAdj, 4), { accent: true, idx: '02' }),
-      card('Remoción de material', fmt(Q, 2), 'cm³/min', subMrr(Q), { idx: '03' }),
-      card('Avance por diente', fmt(fzAdj, 4), 'mm/d', (v.feedMode === 'fz' ? 'fz programado ' : 'hex objetivo ') + fmt(v.feedMode === 'fz' ? fzAdj : hexEff, 4) + ' mm · z ' + fmt(z, 0), { idx: '04' }),
-      card('Potencia neta', fmt(Pc, 2), 'kW', subPower(Pc), { idx: '05' }),
-      card('Torque', fmt(Mc, 1), 'N·m', subTorque(Mc), { idx: '06' })
+      cardRpm(n, isImp ? 'RPM = (SFM · 3.82) / Dc' : 'n = 1000 · vc / (π · Dc)'),
+      cardFeed(vf, isImp ? fzAdj / 25.4 : fzAdj, 'fz,aj'),
+      cardMrr(Q),
+      card(isImp ? 'Avance por diente' : 'Avance ajustado', isImp ? fmt(fzAdj / 25.4, 4) : fmt(fzAdj, 4), isImp ? 'in/d' : 'mm/d', 'fz corregido por CTF ' + fmt(ctf, 2) + '×', { idx: '04' }),
+      cardPower(Pc),
+      cardTorque(Mc)
     ];
     insights = [
-      insight('CTF radial', fmt(ctfRad, 3) + '×', 'ae/D = ' + fmt(ratio, 3) + (ratio < 0.5 ? ' · viruta adelgazada' : ' · sin compensación')),
+      insight('CTF radial', fmt(ctfRad, 3) + '×', 'ae/D = ' + fmt(ratio, 3) + (ratio < 0.5 ? ' · viruta adelgazada' : ' · pleno contacto')),
       insight('CTF axial', fmt(ctfAx, 3) + '×', 'κr = ' + fmt(kr, 0) + '° · 1/sin κr'),
-      insight('Espesor medio hm', fmt(hm, 4) + ' mm', 'fz,aj · sin κr · √(ae/D)'),
+      insight('Espesor medio hm', isImp ? fmt(hm / 25.4, 4) + ' in' : fmt(hm, 4) + ' mm', 'fz,aj · sin κr · √(ae/D)'),
       insight('Fuerza específica', fmt(kc, 0) + ' N/mm²', 'Kienzle con hm ' + fmt(hm, 4) + ' mm'),
-      insight('Tiempo de mesa', formatTime(Tc), 'L ' + fmt(L, 0) + ' mm × ' + fmt(passes, 0) + ' pasada(s)')
+      insight('Tiempo de mesa', formatTime(Tc), fmt(passes, 0) + ' pasada(s)')
     ];
-    if (ratio < 0.1) alerts.push(makeAlert('warning', 'Inmersión radial muy pequeña', 'ae/D = ' + fmt(ratio * 100, 1) + '%. El filo puede frotar en lugar de cortar. Aumente ae o reduzca el avance objetivo.'));
-    if (v.feedMode !== 'fz' && hexEff < 0.02) alerts.push(makeAlert('warning', 'Viruta objetivo muy delgada', 'hex = ' + fmt(hexEff, 3) + ' mm. Puede provocar frotamiento, calor y desgaste rápido.'));
-    if (fzAdj > 0.5) alerts.push(makeAlert('critical', 'Avance por diente excesivo', 'fz,aj = ' + fmt(fzAdj, 3) + ' mm/d. Verifique resistencia del filo y deflexión de la fresa.'));
-    if (vc < recVc[0] * 0.8 || vc > recVc[1] * 1.2) alerts.push(makeAlert('info', 'vc fuera del rango recomendado', 'Rango de partida: ' + rangeText(recVc, 'm/min') + ' para ' + mat.name + ' con ' + TOOL_LABELS[tool] + '.'));
-    if (ctf > 1.005) alerts.push(makeAlert('info', 'Compensación de viruta aplicada', 'El avance se corrigió por adelgazamiento radial (' + fmt(ctfRad, 2) + '×) y axial (' + fmt(ctfAx, 2) + '×). Verifique que la trayectoria CAM use el mismo criterio.'));
-    formulas = ['rpm', 'vf_mill', 'mrr_mill', 'hm_mill', 'kc', 'ctf', 'pc_mill', 'mc', 'time'];
+    formulas = ['rpm', 'vf_mill', 'mrr_mill', 'ctf', 'hm_mill', 'kc', 'pc_mill', 'mc', 'time'];
     addMachineAlerts(n, Pc, Mc); addLoads(n, Pc, Mc);
   }
 
   /* ================= 03 · ROSCADO EN TORNO ================= */
   if (op === 'threading') {
-    const D = num(v.dia), P = num(v.pitch), vc = num(v.vc), L = Math.max(0, num(v.len)), passes = Math.max(1, num(v.passes));
+    const D = normL(v.dia), vc = normVc(v.vc), L = Math.max(0, normL(v.len)), passes = Math.max(1, num(v.passes));
+    // Paso de rosca: si es imperial y > 0.02 asumimos pulgadas, o milímetros
+    let pitchMm = isImp ? (num(v.pitch) < 0.25 ? num(v.pitch) * 25.4 : num(v.pitch)) : num(v.pitch);
     const n = (1000 * vc) / (Math.PI * D);
-    const vf = n * P;
-    const h = 0.6134 * P;
-    const infeed = h / passes;
-    const Tc = (L * passes) / vf;
+    const vf = n * pitchMm;
+    const h = 0.6134 * pitchMm;
+    const Tc = ((L * passes) / vf) * 1.3;
     time = Tc;
-    raw = { n, vf, Q: null, hm: null, kc: null, Pc: null, Mc: null, Tc, h, passes, infeed, D, Dcap: D, ae: null, ap: h, hex: P, fz: P };
+    raw = { n, vf, Q: null, hm: null, kc: null, Pc: null, Mc: null, Tc, h, D, Dcap: D, passes, pitch: pitchMm, hex: pitchMm, fz: pitchMm };
 
     cards = [
-      card('Velocidad del husillo', fmt(n, 0), 'rpm', 'n = 1000 · vc / (π · D)', { hero: true, idx: '01' }),
-      card('Avance sincronizado', fmt(vf, 2), 'mm/min', 'vf = n · P · ' + subFeed(vf), { accent: true, idx: '02' }),
-      card('Profundidad del filete', fmt(h, 3), 'mm', 'h ≈ 0,6134 · P (' + fmt(P, 2) + ' mm)', { idx: '03' }),
-      card('Pasadas', fmt(passes, 0), 'pasadas', 'Infeed radial ' + fmt(infeed, 3) + ' mm/paso', { idx: '04' }),
-      card('Tiempo neto', formatTimeShort(Tc), '', 'L ' + fmt(L, 0) + ' mm · ' + fmt(passes, 0) + ' pasadas · ' + fmt(Tc, 2) + ' min', { idx: '05' })
+      cardRpm(n, isImp ? 'RPM = (SFM · 3.82) / D' : 'n = 1000 · vc / (π · D)'),
+      cardFeed(vf, isImp ? pitchMm / 25.4 : pitchMm, 'Paso'),
+      card('Profundidad perfil', isImp ? fmt(h / 25.4, 4) : fmt(h, 3), isImp ? 'in' : 'mm', 'h ≈ 0.6134 · P (' + fmt(h, 3) + ' mm)', { idx: '03' }),
+      card('Pasadas sugeridas', fmt(passes, 0), 'pasadas', 'Ciclo G76 o G92', { idx: '04' }),
+      cardTime(Tc, fmt(passes, 0) + ' pasadas · L ' + (isImp ? fmt(num(v.len), 2) + ' in' : fmt(L, 0) + ' mm'))
     ];
     insights = [
-      insight('Sincronización', fmt(vf, 2) + ' mm/min', 'El avance debe seguir exactamente el paso de la rosca'),
-      insight('Profundidad radial', fmt(h, 3) + ' mm', 'Perfil métrico de 60° · ' + fmt(P, 2) + ' mm de paso'),
-      insight('Infeed por pasada', fmt(infeed, 3) + ' mm', 'Distribuya el material en desbaste y acabado'),
-      insight('Relación L/D', fmt(L / D, 2), 'Longitud roscada / diámetro nominal'),
-      insight('Tiempo por pasada', formatTime(Tc / passes), 'Sin aceleraciones ni retrápidos')
+      insight('Avance sincronizado', isImp ? fmt(vf / 25.4, 2) + ' in/min' : fmt(vf, 1) + ' mm/min', 'vf = n · P'),
+      insight('Paso de rosca', isImp ? fmt(pitchMm / 25.4, 4) + ' in' : fmt(pitchMm, 3) + ' mm', isImp ? '≈ ' + fmt(25.4 / pitchMm, 1) + ' TPI' : 'Paso métrico'),
+      insight('Profundidad radial', isImp ? fmt(h / 25.4, 4) + ' in' : fmt(h, 3) + ' mm', 'h = 0.6134 · P'),
+      insight('Diámetro nominal', isImp ? fmt(num(v.dia), 3) + ' in' : fmt(D, 1) + ' mm', isImp ? '≈ ' + fmt(D, 1) + ' mm' : subDia(D))
     ];
-    if (infeed > 0.3) alerts.push(makeAlert('warning', 'Infeed radial alto', 'Con ' + fmt(passes, 0) + ' pasadas el infeed es ' + fmt(infeed, 3) + ' mm. Aumente el número de pasadas para reducir fuerzas laterales y vibración.'));
-    if (passes < 4) alerts.push(makeAlert('info', 'Pocas pasadas para el perfil', 'Para paso ' + fmt(P, 2) + ' mm se recomiendan al menos 4–6 pasadas, con una pasada final de acabado.'));
-    if (L > 0 && L / D > 3) alerts.push(makeAlert('warning', 'Rosca esbelta', 'L/D = ' + fmt(L / D, 1) + '. Use soporte de pieza o reduzca vc para controlar vibración.'));
-    if (vc > recVc[1] * 1.2) alerts.push(makeAlert('info', 'vc alta para roscado', 'En roscado la herramienta suele trabajar con vc reducida. Rango de partida: ' + rangeText(recVc, 'm/min') + '.'));
-    alerts.push(makeAlert('info', 'Sincronización rígida Z–husillo', 'No modifique el avance durante la pasada. Verifique el cero de la pieza y la altura del filo respecto al centro.'));
     formulas = ['rpm', 'vf_sync', 'thread_depth', 'time'];
     addMachineAlerts(n, 0, 0); addLoads(n, 0, 0);
   }
 
   /* ================= 04 · MACHUELO ================= */
   if (op === 'tapping') {
-    const D = num(v.dia), P = num(v.pitch), vc = num(v.vc), depth = num(v.depth), holes = Math.max(1, num(v.holes));
-    const drill = D - P;
+    const D = normL(v.dia), vc = normVc(v.vc), depth = normL(v.depth), holes = Math.max(1, num(v.holes));
+    let pitchMm = isImp ? (num(v.pitch) < 0.25 ? num(v.pitch) * 25.4 : num(v.pitch)) : num(v.pitch);
     const n = (1000 * vc) / (Math.PI * D);
-    const vf = n * P;
-    const Tc = (holes * 2 * depth) / vf;
+    const vf = n * pitchMm;
+    const drillMm = Math.max(0.5, D - pitchMm);
+    const Tc = ((2 * depth * holes) / vf) * 1.15;
     time = Tc;
-    raw = { n, vf, Q: null, hm: null, kc: null, Pc: null, Mc: null, Tc, drill, D, Dcap: D, ae: null, ap: depth, hex: P, fz: P, holes };
+    raw = { n, vf, Q: null, hm: null, kc: null, Pc: null, Mc: null, Tc, drill: drillMm, D, Dcap: D, ae: null, ap: depth, hex: pitchMm, fz: pitchMm, holes };
 
     cards = [
-      card('Velocidad del husillo', fmt(n, 0), 'rpm', 'n = 1000 · vc / (π · D)', { hero: true, idx: '01' }),
-      card('Avance sincronizado', fmt(vf, 2), 'mm/min', 'vf = n · P · ' + subFeed(vf), { accent: true, idx: '02' }),
-      card('Broca previa', fmt(drill, 3), 'mm', subDia(drill) + ' · D − P', { idx: '03' }),
-      card('Tiempo por orificio', formatTimeShort(Tc / holes), '', 'Entrada + salida a ' + fmt(depth, 1) + ' mm · ' + fmt(Tc / holes, 2) + ' min', { idx: '04' }),
-      card('Tiempo total', formatTimeShort(Tc), '', fmt(holes, 0) + ' orificio(s) · ' + fmt(depth, 1) + ' mm · ' + fmt(Tc, 2) + ' min', { idx: '05' })
+      cardRpm(n, isImp ? 'RPM = (SFM · 3.82) / D' : 'n = 1000 · vc / (π · D)'),
+      cardFeed(vf, isImp ? pitchMm / 25.4 : pitchMm, 'P'),
+      card('Broca previa', isImp ? fmt(drillMm / 25.4, 3) : fmt(drillMm, 3), isImp ? 'in' : 'mm', 'D − P · (≈ ' + fmt(drillMm, 2) + ' mm)', { idx: '03' }),
+      card('Tiempo por agujero', formatTimeShort(Tc / holes), '', fmt(depth, 1) + ' mm profundidad', { idx: '04' }),
+      card('Tiempo total', formatTimeShort(Tc), '', fmt(holes, 0) + ' orificio(s)', { idx: '05' })
     ];
     insights = [
-      insight('Broca previa', fmt(drill, 3) + ' mm', 'D − P · verifique el porcentaje de rosca útil'),
-      insight('Avance / revolución', fmt(P, 3) + ' mm/rev', 'Debe coincidir exactamente con el paso'),
-      insight('Relación L/D', fmt(depth / D, 2), 'Profundidad / diámetro nominal'),
-      insight('Broca / nominal', fmt((drill / D) * 100, 1) + '%', 'Relación Dbroca / Dnominal; verifique el % de rosca requerido'),
-      insight('Velocidad de corte', fmt(vc, 0) + ' m/min', 'En machuelo use el 50–70% de la vc de taladrado')
+      insight('Broca previa', isImp ? fmt(drillMm / 25.4, 3) + ' in' : fmt(drillMm, 3) + ' mm', 'D − P (diámetro para roscado)'),
+      insight('Avance / revolución', isImp ? fmt(pitchMm / 25.4, 4) + ' in/rev' : fmt(pitchMm, 3) + ' mm/rev', 'Sincronización rígida Z–husillo'),
+      insight('Relación L/D', fmt(depth / D, 2), 'Profundidad / diámetro nominal')
     ];
-    if (depth / D > 2.5) alerts.push(makeAlert('warning', 'Machuelo profundo', 'L/D = ' + fmt(depth / D, 2) + '. Use machuelo de ranura helicoidal, refrigeración interna y verifique la evacuación de viruta.'));
-    if (vc > recVc[1] * 1.15) alerts.push(makeAlert('info', 'vc alta para machuelo', 'En roscado con machuelo la vc debe ser 50–70% menor que en taladrado. Rango de partida: ' + rangeText(recVc, 'm/min') + '.'));
-    if (holes > 20) alerts.push(makeAlert('info', 'Producción en serie', 'Con ' + fmt(holes, 0) + ' orificios controle el desgaste del machuelo y programe una pausa de verificación.'));
-    alerts.push(makeAlert('info', 'Rigid tapping', 'El avance y la rotación deben estar sincronizados. En máquinas sin compensación axial use porta-machuelo flotante.'));
     formulas = ['rpm', 'vf_sync', 'tap_drill', 'time'];
     addMachineAlerts(n, 0, 0); addLoads(n, 0, 0);
   }
 
   /* ================= 05 · PUNTA ESFÉRICA ================= */
   if (op === 'ballnose') {
-    const D = num(v.dia), ap = num(v.ap), ae = num(v.ae), z = Math.max(1, num(v.z)), vc = num(v.vc);
-    const kr = num(v.kr), tilt = num(v.tilt), L = Math.max(0, num(v.len)), passes = Math.max(1, num(v.passes));
-    if (ap > D) return { ok: false, invalid: 'La profundidad axial ap (' + fmt(ap, 2) + ' mm) no puede superar el diámetro de la fresa (' + fmt(D, 2) + ' mm).' };
-    if (ae > D) return { ok: false, invalid: 'El paso radial ae (' + fmt(ae, 2) + ' mm) no puede superar el diámetro de la fresa (' + fmt(D, 2) + ' mm).' };
+    const D = normL(v.dia), ap = normL(v.ap), ae = normL(v.ae), z = Math.max(1, num(v.z)), vc = normVc(v.vc);
+    const kr = num(v.kr), tilt = num(v.tilt), L = Math.max(0, normL(v.len)), passes = Math.max(1, num(v.passes));
+    if (ap > D) return { ok: false, invalid: 'La profundidad ap no puede superar el diámetro de la fresa.' };
     const Dcap = Math.max(0.05, 2 * Math.sqrt(Math.max(0.000001, ap * (D - ap))));
     const n = (1000 * vc) / (Math.PI * Dcap);
     const ratio = clamp(ae / Dcap, 0.0001, 0.9999);
     let ctfRad = ratio < 0.5 ? 1 / (2 * Math.sqrt(ratio * (1 - ratio))) : 1;
     const sinKr = Math.max(0.05, Math.sin((kr * Math.PI) / 180));
-    const ctfAx = 1 / sinKr;
-    const ctf = ctfRad * ctfAx;
+    const ctf = ctfRad * (1 / sinKr);
     let fzAdj, hexEff;
-    if (v.feedMode === 'fz') { fzAdj = num(v.fz); hexEff = fzAdj / ctf; }
-    else { hexEff = num(v.hex); fzAdj = hexEff * ctf; }
+    if (v.feedMode === 'fz') { fzAdj = normFeed(v.fz); hexEff = fzAdj / ctf; }
+    else { hexEff = normFeed(v.hex); fzAdj = hexEff * ctf; }
     const vf = fzAdj * z * n;
     const Q = (ae * ap * vf) / 1000;
     const hm = fzAdj * sinKr * Math.sqrt(ratio);
@@ -2019,36 +2346,32 @@ function calculate() {
     const R = D / 2;
     const scallop = ((ae * ae) / (8 * R)) * 1000;
     time = Tc;
-    raw = { n, vf, Q, hm, kc, Pc, Mc, Tc, ae, ap, D, Dcap, hex: hexEff, fz: fzAdj, ctfRad, ctfAx, ctf, scallop, tilt };
+    raw = { n, vf, Q, hm, kc, Pc, Mc, Tc, ae, ap, D, Dcap, hex: hexEff, fz: fzAdj, ctfRad, ctfAx: 1/sinKr, ctf, scallop, tilt };
 
     cards = [
-      card('Velocidad del husillo', fmt(n, 0), 'rpm', 'Calculada con Dcap ' + fmt(Dcap, 2) + ' mm', { hero: true, idx: '01' }),
-      card('Avance de mesa', fmt(vf, 1), 'mm/min', subFeed(vf) + ' · fz,aj ' + fmt(fzAdj, 4), { accent: true, idx: '02' }),
-      card('Diámetro efectivo', fmt(Dcap, 2), 'mm', 'Dcap = 2√(ap(Dc−ap))', { idx: '03' }),
-      card('Remoción de material', fmt(Q, 2), 'cm³/min', subMrr(Q), { idx: '04' }),
-      card('Altura de scallop', fmt(scallop, 2), 'µm', 'ae² / (8 · R) · R ' + fmt(R, 2) + ' mm', { idx: '05' }),
-      card('Potencia neta', fmt(Pc, 2), 'kW', subPower(Pc), { idx: '06' })
+      cardRpm(n, 'Calculada con Dcap ' + (isImp ? fmt(Dcap / 25.4, 3) + ' in' : fmt(Dcap, 2) + ' mm')),
+      cardFeed(vf, isImp ? fzAdj / 25.4 : fzAdj, 'fz,aj'),
+      card('Diámetro efectivo', isImp ? fmt(Dcap / 25.4, 3) : fmt(Dcap, 2), isImp ? 'in' : 'mm', 'Dcap = 2√(ap(Dc−ap))', { idx: '03' }),
+      cardMrr(Q),
+      card('Altura de scallop', isImp ? fmt(scallop / 0.0254, 1) : fmt(scallop, 2), isImp ? 'µin' : 'µm', 'ae² / (8 · R)', { idx: '05' }),
+      cardPower(Pc)
     ];
     insights = [
-      insight('Dcap / Dc', fmt((Dcap / D) * 100, 1) + '%', 'El diámetro efectivo cae al acercarse al polo'),
-      insight('CTF radial', fmt(ctfRad, 3) + '×', 'ae/Dcap = ' + fmt(ratio, 3)),
-      insight('Espesor medio hm', fmt(hm, 4) + ' mm', 'fz,aj · sin κr · √(ae/Dcap)'),
-      insight('Fuerza específica', fmt(kc, 0) + ' N/mm²', 'Aumenta al reducir el espesor de viruta'),
-      insight('Inclinación del eje', fmt(tilt, 0) + '°', tilt < 5 ? 'Considere 10–15° para evitar el corte en el polo' : 'Reduce el contacto en el polo; Dcap depende de ap')
+      insight('Dcap / Dc', fmt((Dcap / D) * 100, 1) + '%', 'Diámetro efectivo según profundidad ap'),
+      insight('Espesor medio hm', isImp ? fmt(hm / 25.4, 4) + ' in' : fmt(hm, 4) + ' mm', 'fz,aj · sin κr · √(ae/Dcap)'),
+      insight('Fuerza específica', fmt(kc, 0) + ' N/mm²', 'Aumenta al adelgazar viruta'),
+      insight('Inclinación (tilt)', fmt(tilt, 0) + '°', tilt < 5 ? 'Considere 10–15° para evitar polo vc=0' : 'Desplaza contacto fuera del polo')
     ];
-    if (ap / D > 0.35) alerts.push(makeAlert('warning', 'Trabajo cerca del polo de la fresa', 'ap/Dc = ' + fmt((ap / D) * 100, 1) + '%. El Dcap cae a ' + fmt(Dcap, 2) + ' mm y la velocidad real en el centro tiende a cero. Reduzca ap o incline el eje.'));
-    if (Dcap < D * 0.3) alerts.push(makeAlert('critical', 'Diámetro efectivo crítico', 'Dcap = ' + fmt(Dcap, 2) + ' mm (' + fmt((Dcap / D) * 100, 1) + '% de Dc). El husillo puede girar en vacío sobre el centro. Ajuste ap.'));
-    if (tilt < 5 && ap < D * 0.12) alerts.push(makeAlert('info', 'Considere inclinar el eje', 'Con ap pequeño y sin inclinación, la zona central no corta. Una inclinación de 10–15° mejora el contacto.'));
-    if (scallop > 10) alerts.push(makeAlert('warning', 'Scallop visible', 'Altura teórica ' + fmt(scallop, 1) + ' µm. Reduzca el paso radial ae si necesita mejor acabado.'));
-    if (fzAdj > 0.3) alerts.push(makeAlert('critical', 'Avance por diente excesivo', 'fz,aj = ' + fmt(fzAdj, 3) + ' mm/d en punta esférica. Verifique deflexión y acabado.'));
+    if (tilt < 5 && ap < D * 0.12) alerts.push(makeAlert('warning', 'Peligro de corte polar (vc ≈ 0)', 'Con ap pequeño y sin inclinación, el centro muerto de la fresa frotará contra la pieza generando desgaste prematuro. Incline el eje 10–15°.'));
     formulas = ['dcap', 'rpm', 'vf_mill', 'ctf', 'hm_mill', 'kc', 'pc_mill', 'mc', 'time'];
     addMachineAlerts(n, Pc, Mc); addLoads(n, Pc, Mc);
   }
 
   /* ================= 06 · TALADRADO PROFUNDO / PECK ================= */
   if (op === 'drilling') {
-    const D = num(v.dia), Sn = num(v.depth), vc = num(v.vc), fn = num(v.fn);
+    const D = normL(v.dia), Sn = normL(v.depth), vc = normVc(v.vc), fn = normFeed(v.fn);
     const dwell = Math.max(0, num(v.dwell));
+    const Lv = normL(v.overhang) || Sn;
     const n = (1000 * vc) / (Math.PI * D);
     const vf = fn * n;
     const Q = ((Math.PI * D * D) / 4) * (vf / 1000);
@@ -2060,14 +2383,14 @@ function calculate() {
     let pecks = null, Tc = 0, peckCount = 0, totalRetract = 0;
 
     if (v.peckMode === 'coolant') {
-      const clearance = Math.max(0, num(v.clearance));
+      const clearance = Math.max(0, normL(v.clearance));
       const travel = Sn + clearance;
       Tc = travel / vf + dwell / 60;
       peckCount = 1;
-      peckNote = 'Taladrado con refrigeración interna, sin retracción de picoteo.';
+      peckNote = 'Taladrado con refrigeración interna de alta presión.';
     } else {
-      const first = num(v.firstPeck), last = num(v.lastPeck);
-      const retract = Math.max(0, num(v.retract));
+      const first = normL(v.firstPeck), last = normL(v.lastPeck);
+      const retract = Math.max(0, normL(v.retract));
       pecks = peckSequence(Sn, first, last);
       peckCount = pecks.count;
       let cumulative = 0;
@@ -2075,44 +2398,172 @@ function calculate() {
         cumulative += p;
         const back = Math.min(cumulative, retract);
         Tc += p / vf;
-        Tc += back / 5000;  // retrápido estimado 5.000 mm/min
+        Tc += back / 5000;
         Tc += dwell / 60;
         totalRetract += back;
       }
-      Tc += Math.max(0, num(v.clearance)) / vf;
-      peckNote = 'Secuencia aritmética decreciente; retracción estimada a 5.000 mm/min.';
+      Tc += Math.max(0, normL(v.clearance)) / vf;
+      peckNote = 'Secuencia aritmética decreciente Omirou & Fyrillas.';
     }
     peck = pecks;
     time = Tc;
-    raw = { n, vf, Q, hm, kc, Pc, Mc, Tc, ae: D, ap: Sn, D, Dcap: D, hex: fn, fz: fn, pecks, peckCount, retractTotal: totalRetract };
+    const chatterRatio = Lv / D;
+    raw = { n, vf, Q, hm, kc, Pc, Mc, Tc, ae: D, ap: Sn, D, Dcap: D, hex: fn, fz: fn, pecks, peckCount, retractTotal: totalRetract, chatterRatio };
 
     cards = [
-      card('Velocidad del husillo', fmt(n, 0), 'rpm', 'n = 1000 · vc / (π · D)', { hero: true, idx: '01' }),
-      card('Avance de penetración', fmt(vf, 1), 'mm/min', subFeed(vf) + ' · fn ' + fmt(fn, 3), { accent: true, idx: '02' }),
-      card('Remoción de material', fmt(Q, 2), 'cm³/min', subMrr(Q), { idx: '03' }),
-      card('Picoteos', fmt(peckCount, 0), 'ciclos', pecks ? 'Primero ' + fmt(pecks.first, 2) + ' mm · último ' + fmt(pecks.last, 2) + ' mm' : 'Refrigeración interna', { idx: '04' }),
-      card('Potencia neta', fmt(Pc, 2), 'kW', subPower(Pc), { idx: '05' }),
-      card('Tiempo estimado', formatTimeShort(Tc), '', 'Incluye ' + fmt(dwell, 2) + ' s de permanencia · ' + fmt(Tc, 2) + ' min', { idx: '06' })
+      cardRpm(n, isImp ? 'RPM = (SFM · 3.82) / D' : 'n = 1000 · vc / (π · D)'),
+      cardFeed(vf, isImp ? num(v.fn) : fn, 'fn'),
+      cardMrr(Q),
+      card('Ciclos de picoteo', fmt(peckCount, 0), 'ciclos', pecks ? 'Primer peck ' + (isImp ? fmt(pecks.first / 25.4, 3) + ' in' : fmt(pecks.first, 1) + ' mm') : 'Refrigeración interna', { idx: '04' }),
+      cardPower(Pc),
+      cardTime(Tc, 'Sn: ' + (isImp ? fmt(num(v.depth), 2) + ' in' : fmt(Sn, 0) + ' mm'))
     ];
     insights = [
-      insight('Relación L/D', fmt(Ld, 2), Ld >= 8 ? 'Taladrado profundo — máxima vigilancia' : Ld >= 4 ? 'Profundidad moderada' : 'Profundidad estándar'),
-      insight('Espesor medio hm', fmt(hm, 3) + ' mm', 'Estimación por labio · fn / 2'),
-      insight('Fuerza específica', fmt(kc, 0) + ' N/mm²', 'Aumenta con la disminución de hm'),
-      insight('Ciclos de picoteo', fmt(peckCount, 0), pecks ? 'Suma verificada ' + fmt(pecks.total, 2) + ' / ' + fmt(Sn, 2) + ' mm' : 'Salida continua con refrigeración'),
-      insight('Retracción acumulada', fmt(totalRetract, 1) + ' mm', 'Tiempo de retrápido incluido en la estimación')
+      insight('Relación L/D', fmt(Ld, 1), Ld >= 8 ? 'Taladrado muy profundo (crítico)' : Ld >= 4 ? 'Profundidad moderada' : 'Profundidad estándar'),
+      insight('Espesor medio hm', isImp ? fmt(hm / 25.4, 4) + ' in' : fmt(hm, 3) + ' mm', 'Estimación por labio · fn / 2'),
+      insight('Fuerza específica', fmt(kc, 0) + ' N/mm²', 'Aumenta al decrecer hm'),
+      insight('Ciclos de picoteo', fmt(peckCount, 0), pecks ? 'Profundidad ' + fmt(pecks.total, 1) + ' mm' : 'Flujo continuo')
     ];
-    if (Ld >= 8) alerts.push(makeAlert('critical', 'Taladrado muy profundo', 'L/D = ' + fmt(Ld, 1) + '. Use broca de taladrado profundo, refrigeración interna a presión, picoteos cortos y verifique la evacuación de viruta en cada retracción.'));
-    else if (Ld >= 4) alerts.push(makeAlert('warning', 'Taladrado profundo', 'L/D = ' + fmt(Ld, 1) + '. Reduzca el primer picoteo, aumente la frecuencia de retracción y vigile el sobrecalentamiento.'));
-    if (pecks && pecks.count > 40) alerts.push(makeAlert('warning', 'Demasiados picoteos', 'La secuencia genera ' + fmt(pecks.count, 0) + ' ciclos. Aumente el último picoteo o el primer picoteo para reducir tiempo muerto.'));
-    if (pecks && pecks.last > pecks.first) return { ok: false, invalid: 'El último picoteo no puede ser mayor que el primero. Corrija la secuencia de picoteo.' };
-    if (snRemainder(pecks, Sn)) alerts.push(makeAlert('warning', 'Secuencia ajustada por redondeo', 'La suma de picoteos se ajustó para cubrir exactamente la profundidad total. Verifique la secuencia antes de programar.'));
-    if (v.peckMode === 'coolant' && Ld >= 6) alerts.push(makeAlert('info', 'Refrigeración interna requerida', 'Sin picoteo, el taladrado profundo exige refrigeración interna de alta presión y un taladro de alivio cuando sea posible.'));
-    if (Q > 0 && Pc > 0) alerts.push(makeAlert('info', 'Potencia por energía específica', 'Pc = kc · Q / 60.000. El resultado es una estimación neta de corte; no incluye eficiencia del motor ni accionamientos.'));
+    if (Ld >= 8) alerts.push(makeAlert('critical', 'Taladrado muy profundo (L/D ≥ 8)', 'Riesgo crítico de empaquetamiento de viruta. Requiere refrigeración interna a presión o picoteos cortos y frecuentes.'));
     formulas = ['rpm', 'vf_turn', 'mrr_drill', 'hm_drill', 'kc', 'pc_drill', 'mc', 'peck', 'time'];
     addMachineAlerts(n, Pc, Mc); addLoads(n, Pc, Mc);
   }
 
-  if (!alerts.length) alerts.push(makeAlert('ok', 'Cálculo dentro de los límites configurados', 'Los parámetros son coherentes con los límites de máquina y la matriz del informe. Realice una pasada de prueba.'));
+  /* ================= 07 · TRONZADO Y RANURADO ================= */
+  if (op === 'grooving') {
+    const Dext = normL(v.dia), Dint = Math.max(0, normL(v.diaInt)), bw = normL(v.bw), vc = normVc(v.vc), fn = normFeed(v.fn);
+    const Lv = normL(v.overhang) || 25;
+    if (Dint >= Dext) return { ok: false, invalid: 'El diámetro interior Dint debe ser menor al diámetro exterior Dext.' };
+    const n = (1000 * vc) / (Math.PI * Dext);
+    const vf = fn * n;
+    const hm = fn;
+    const kc = kienzle(hm);
+    const Fc = kc * bw * fn;
+    const Pc = (Fc * vc) / 60000;
+    const Mc = (Pc * 30000) / (Math.PI * n);
+    const Q = bw * fn * vc;
+    const radialTravel = (Dext - Dint) / 2;
+    const Tc = radialTravel / vf;
+    time = Tc;
+    const chatterRatio = Lv / bw;
+    raw = { n, vf, Q, hm, kc, Pc, Mc, Tc, bw, Dext, Dint, radialTravel, Fc, chatterRatio, D: Dext, Dcap: Dext, hex: fn, fz: fn };
+
+    cards = [
+      cardRpm(n, isImp ? 'RPM inicial = (SFM · 3.82) / Dext' : 'n = 1000 · vc / (π · Dext)'),
+      cardFeed(vf, isImp ? num(v.fn) : fn, 'fn radial'),
+      card('Fuerza de corte Fc', fmt(Fc, 0), 'N', 'kc · bw · fn', { idx: '03' }),
+      cardMrr(Q),
+      cardPower(Pc),
+      cardTime(Tc, 'Carrera radial ' + (isImp ? fmt(radialTravel / 25.4, 3) + ' in' : fmt(radialTravel, 1) + ' mm'))
+    ];
+    insights = [
+      insight('Carrera radial', isImp ? fmt(radialTravel / 25.4, 3) + ' in' : fmt(radialTravel, 2) + ' mm', '(Dext − Dint) / 2'),
+      insight('Fuerza específica', fmt(kc, 0) + ' N/mm²', 'Kienzle con hm ' + fmt(hm, 3) + ' mm'),
+      insight('Esbeltez de cuchilla', fmt(chatterRatio, 1) + '×', 'Voladizo / ancho (Lv/bw)')
+    ];
+    if (Dint === 0) alerts.push(makeAlert('info', 'Tronzado a centro', 'En los últimos 2–3 mm reduzca el avance un 50% para evitar rotura del tetón central y expulsión violenta de la pieza.'));
+    formulas = ['rpm', 'vf_turn', 'mrr_groove', 'kc', 'pc_groove', 'mc', 'time'];
+    addMachineAlerts(n, Pc, Mc); addLoads(n, Pc, Mc);
+  }
+
+  /* ================= 08 · ESCARIADO / RIMADO H7 ================= */
+  if (op === 'reaming') {
+    const D = normL(v.dia), z = Math.max(1, num(v.z)), vc = normVc(v.vc), fz = normFeed(v.fz);
+    const ap = normL(v.ap), depth = normL(v.depth), holes = Math.max(1, num(v.holes));
+    const Lv = normL(v.overhang) || 45;
+    const n = (1000 * vc) / (Math.PI * D);
+    const vf = fz * z * n;
+    const Q = (Math.PI * D * ap * vf) / 1000;
+    const hm = fz;
+    const kc = kienzle(hm);
+    const Pc = (kc * Q) / 60000;
+    const Mc = (Pc * 30000) / (Math.PI * n);
+    const Tc = ((depth * holes) / vf) * 1.5;
+    time = Tc;
+    const chatterRatio = Lv / D;
+    raw = { n, vf, Q, hm, kc, Pc, Mc, Tc, D, Dcap: D, z, ap, fz, depth, holes, chatterRatio, hex: fz };
+
+    cards = [
+      cardRpm(n, isImp ? 'RPM = (SFM · 3.82) / D' : 'n = 1000 · vc / (π · D)'),
+      cardFeed(vf, isImp ? num(v.fz) : fz, 'fz labio'),
+      cardMrr(Q),
+      card('Sobremedida radial', isImp ? fmt(ap / 25.4, 4) + ' in' : fmt(ap, 2) + ' mm', 'Sobredímetro ' + (isImp ? fmt((ap * 2) / 25.4, 4) + ' in' : fmt(ap * 2, 2) + ' mm'), { idx: '04' }),
+      cardPower(Pc),
+      cardTime(Tc, fmt(holes, 0) + ' orificio(s) H7')
+    ];
+    insights = [
+      insight('Avance por rev.', isImp ? fmt((fz * z) / 25.4, 4) + ' in/rev' : fmt(fz * z, 3) + ' mm/rev', 'fn = fz · zc (' + fmt(z, 0) + ' labios)'),
+      insight('Ciclo CNC sugerido', 'G85 (Sin parada)', 'Avance motorizado continuo en entrada y salida'),
+      insight('Tolerancia objetivo', 'ISO H7 / H6', 'Lubricación continua obligatoria')
+    ];
+    alerts.push(makeAlert('critical', 'Regla de Oro en Escariado', '¡NUNCA detenga ni invierta el giro del husillo dentro del barreno! Destruiría los filos. La retracción debe ser con avance motorizado y giro constante (Ciclo G85).'));
+    formulas = ['rpm', 'vf_mill', 'mrr_ream', 'kc', 'time'];
+    addMachineAlerts(n, Pc, Mc); addLoads(n, Pc, Mc);
+  }
+
+  /* ================= 09 · CHAFLANADO Y AVELLANADO ================= */
+  if (op === 'chamfering') {
+    const D1 = normL(v.dia1), D2 = normL(v.dia2), angle = num(v.angle), z = Math.max(1, num(v.z));
+    const vc = normVc(v.vc), fz = normFeed(v.fz), L = Math.max(0, normL(v.len)), passes = Math.max(1, num(v.passes));
+    if (D1 >= D2) return { ok: false, invalid: 'El diámetro menor D1 debe ser inferior al mayor D2.' };
+    const Deff = (D1 + D2) / 2;
+    const radAngle = (angle * Math.PI) / 180;
+    const ap = Math.abs(D2 - D1) / (2 * Math.max(0.1, Math.tan(radAngle)));
+    const ae = Math.abs(D2 - D1) / 2;
+    const n = (1000 * vc) / (Math.PI * Deff);
+    const vf = fz * z * n;
+    const hm = fz * Math.sin(radAngle);
+    const kc = kienzle(hm);
+    const Q = (ap * ae * vf) / 1000;
+    const Pc = (ae * ap * vf * kc) / 60e6;
+    const Mc = (Pc * 30000) / (Math.PI * n);
+    const Tc = (L * passes) / vf;
+    time = Tc;
+    raw = { n, vf, Q, hm, kc, Pc, Mc, Tc, D1, D2, Deff, ap, ae, angle, z, fz, D: D2, Dcap: Deff, hex: hm };
+
+    cards = [
+      cardRpm(n, 'Calculada con Deff ' + (isImp ? fmt(Deff / 25.4, 3) + ' in' : fmt(Deff, 2) + ' mm')),
+      cardFeed(vf, isImp ? num(v.fz) : fz, 'fz contorno'),
+      card('Diámetro efectivo', isImp ? fmt(Deff / 25.4, 3) : fmt(Deff, 2), isImp ? 'in' : 'mm', 'Deff = (D1 + D2) / 2', { idx: '03' }),
+      card('Profundidad axial ap', isImp ? fmt(ap / 25.4, 3) : fmt(ap, 2), isImp ? 'in' : 'mm', 'ap = (D2 − D1) / (2·tan α)', { idx: '04' }),
+      cardPower(Pc),
+      cardTime(Tc, fmt(passes, 0) + ' pasada(s)')
+    ];
+    insights = [
+      insight('Diámetro medio Deff', isImp ? fmt(Deff / 25.4, 3) + ' in' : fmt(Deff, 2) + ' mm', 'Evita sobrevelocidad o frotamiento en raíz'),
+      insight('Ancho radial bisel', isImp ? fmt(ae / 25.4, 3) + ' in' : fmt(ae, 2) + ' mm', '(D2 − D1) / 2'),
+      insight('Ángulo de corte', fmt(angle, 0) + '°', 'Respecto al eje del husillo')
+    ];
+    formulas = ['deff_chamfer', 'rpm', 'vf_mill', 'kc', 'pc_mill', 'time'];
+    addMachineAlerts(n, Pc, Mc); addLoads(n, Pc, Mc);
+  }
+
+  // Modelo de Taylor para estimación de vida de herramienta
+  let taylor = null;
+  if (raw && raw.n && v.vc) {
+    const vcVal = normVc(v.vc);
+    const nTaylor = tool === 'carbide' ? 0.25 : 0.125;
+    const Tref = 20;
+    const CTaylor = vcVal * Math.pow(Tref, nTaylor);
+    const Test = Math.round(Math.pow(CTaylor / Math.max(1, vcVal), 1 / nTaylor));
+    const v15 = roundTo(CTaylor / Math.pow(15, nTaylor), 0);
+    const v30 = roundTo(CTaylor / Math.pow(30, nTaylor), 0);
+    const v60 = roundTo(CTaylor / Math.pow(60, nTaylor), 0);
+    taylor = { T: Test, v15: isImp ? Math.round(v15 * 3.28084) : v15, v30: isImp ? Math.round(v30 * 3.28084) : v30, v60: isImp ? Math.round(v60 * 3.28084) : v60 };
+    raw.taylor = taylor;
+    if (['turning','milling','ballnose'].includes(op)) {
+      insights.push(insight('Vida de filo est.', fmt(Test, 0) + ' min', 'Taylor n=' + nTaylor + ' · v30=' + taylor.v30 + (isImp ? ' SFM' : ' m/min')));
+    }
+  }
+
+  // Asesor de Voladizo y Rigidez (Chatter)
+  if (raw && raw.chatterRatio) {
+    const R = raw.chatterRatio;
+    const status = R > 5 ? 'CRÍTICO' : R > 3.5 ? 'MODERADO' : 'RÍGIDO';
+    insights.push(insight('Rigidez montaje', status, 'Relación L/D = ' + fmt(R, 1)));
+  }
+
+  if (!alerts.length) alerts.push(makeAlert('ok', 'Cálculo dentro de los límites configurados', 'Los parámetros son coherentes con la física de corte. Realice una pasada de prueba.'));
   if (time !== null) extra.timeText = formatTimeShort(time);
 
   return {
@@ -2128,10 +2579,10 @@ function calculate() {
     time,
     mat,
     tool,
+    taylor,
     peckNote
   };
 }
-
 function snRemainder(pecks, total) {
   if (!pecks || !pecks.seq || !pecks.seq.length) return false;
   const sum = pecks.seq.reduce((a, b) => a + b, 0);
@@ -2268,17 +2719,19 @@ function hintFor(op, f, vals) {
    ------------------------------------------------------------ */
 function fieldMarkup(op, f, vals) {
   const id = 'f_' + f.key;
-  const label = '<label for="' + id + '">' + esc(f.label) + ' <span class="sym">' + esc(f.sym) + (f.unit ? ' · ' + esc(f.unit) : '') + '</span></label>';
+  const unitText = displayUnit(f.unit, f.key);
+  const symText = displaySym(f.sym, f.key);
+  const label = '<label for="' + id + '">' + esc(f.label) + ' <span class="sym">' + esc(symText) + (unitText ? ' · ' + esc(unitText) : '') + '</span></label>';
   let attrs = 'type="number" inputmode="decimal" data-key="' + esc(f.key) + '" id="' + id + '"';
   if (f.min !== undefined) attrs += ' min="' + f.min + '"';
   if (f.max !== undefined) attrs += ' max="' + f.max + '"';
-  if (f.step !== undefined) attrs += ' step="' + f.step + '"';
+  if (f.step !== undefined) attrs += ' step="' + (state.unit === 'imperial' && ['dia','ap','ae','bw','len','depth'].includes(f.key) ? 0.005 : f.step) + '"';
   if (f.list) attrs += ' list="' + f.list + '"';
   const val = vals[f.key];
   attrs += ' value="' + esc(isFinite(num(val)) ? val : '') + '"';
   const hint = hintFor(op, f, vals);
   return '<div class="field" data-field="' + esc(f.key) + '">' + label +
-    '<div class="input-wrap"><input ' + attrs + '>' + (f.unit ? '<span class="unit">' + esc(f.unit === 'filos' ? 'filos' : f.unit) + '</span>' : '') + '</div>' +
+    '<div class="input-wrap"><input ' + attrs + '>' + (unitText ? '<span class="unit">' + esc(unitText === 'filos' ? 'filos' : unitText) + '</span>' : '') + '</div>' +
     (hint ? '<div class="field-hint">' + hint + '</div>' : '') +
     '</div>';
 }
@@ -2318,6 +2771,381 @@ function renderFields() {
 /* ------------------------------------------------------------
    CABECERA DEL MÓDULO
    ------------------------------------------------------------ */
+
+/* ------------------------------------------------------------
+   GENERADOR DE CÓDIGO G Y CICLOS CNC MULTI-CONTROL
+   ------------------------------------------------------------ */
+function generateGCode(op, raw, state) {
+  if (!raw || !raw.n) return '( Ingrese parámetros válidos para generar código G )';
+  const dialect = state.gcodeDialect || 'fanuc';
+  const v = state.values[op] || {};
+  const n = Math.round(raw.n || 1000);
+  const vf = roundTo(raw.vf || 100, 1);
+  const fn = roundTo(raw.fn || 0.15, 3);
+  const dia = roundTo(v.dia || 20, 2);
+  const ap = roundTo(v.ap || 2, 2);
+  const depth = roundTo(v.depth || 30, 2);
+  const pitch = roundTo(v.pitch || 1.5, 3);
+  const len = roundTo(v.len || 50, 1);
+  const bw = roundTo(v.bw || 3, 2);
+  const Dint = roundTo(v.diaInt || 0, 2);
+
+  const header = (desc) => {
+    if (dialect === 'heidenhain') {
+      return '0  BEGIN PGM ' + op.toUpperCase() + ' MM\n1  BLK FORM 0.1 Z X-50 Y-50 Z-20\n2  BLK FORM 0.2 X+50 Y+50 Z+0\n3  TOOL CALL 1 Z S' + n + '\n4  M3 M8';
+    }
+    if (dialect === 'siemens') {
+      return '; PROGRAMA CNC: ' + op.toUpperCase() + '\n; ' + desc + '\n; PARACORTE.ING.NESTOR\nG54 G90 G17 G71\nT1 D1 M6\nS' + n + ' M3 M8';
+    }
+    return '( OPERACION: ' + op.toUpperCase() + ' )\n( ' + desc + ' )\n%\nO1001 ( PARACORTE.ING.NESTOR )\nG21 G90 G40 G80 G49\nT01 M06\nG54 G00 X0. Y0.\nS' + n + ' M03 M08\nG43 H01 Z5.0';
+  };
+
+  const footer = () => {
+    if (dialect === 'heidenhain') {
+      return '98 L Z+100 R0 FMAX M9\n99 M30\n100 END PGM ' + op.toUpperCase() + ' MM';
+    }
+    if (dialect === 'siemens') {
+      return 'G0 Z50.0 M9\nM5\nM30';
+    }
+    return 'G00 Z50.0 M09\nM05\nG28 G91 Z0.\nG28 G91 Y0.\nM30\n%';
+  };
+
+  if (op === 'turning') {
+    if (dialect === 'siemens') {
+      return header('HERRAMIENTA TORNEADO D' + dia) + '\nG96 S' + Math.round(v.vc) + ' LIMS=' + state.machine.maxRpm + ' M3\nG0 X' + (dia + 4) + ' Z2.0\nG1 Z-' + len + ' F' + fn + '\nG0 X' + (dia + 6) + '\nG0 Z5.0\n' + footer();
+    }
+    return header('HERRAMIENTA TORNEADO D' + dia) + '\nG50 S' + state.machine.maxRpm + ' ( CLAMP RPM )\nG96 S' + Math.round(v.vc) + ' M03 ( CSS ACTIVO )\nG00 X' + (dia + 4) + '. Z2.0\nG01 Z-' + len + '. F' + fn + '\nG00 X' + (dia + 6) + '.\nG00 Z5.0\n' + footer();
+  }
+
+  if (op === 'drilling') {
+    const firstP = raw.pecks ? raw.pecks.first : 5;
+    if (dialect === 'heidenhain') {
+      return header('BROCA D' + dia) + '\n5  CYCL DEF 205 TALADRADO PROFUNDO ~\n   Q200=2 ;SEGURIDAD ~\n   Q201=-' + depth + ' ;PROFUNDIDAD ~\n   Q206=' + vf + ' ;AVANCE ~\n   Q202=' + firstP + ' ;PICOTEO ~\n   Q211=' + (v.dwell || 0.3) + ' ;TEMPORIZACION\n6  L X+0 Y+0 R0 FMAX M99\n' + footer();
+    }
+    if (dialect === 'siemens') {
+      return header('BROCA D' + dia) + '\nCYCLE83(5.0, 0, 2.0, -' + depth + ', , ' + firstP + ', 1.0, 0.5, 0.3, 1, 1, 1, ' + vf + ', 0.5, 0.2)\n' + footer();
+    }
+    return header('BROCA D' + dia) + '\nG98 G83 X0. Y0. Z-' + depth + '. R2.0 Q' + Math.round(firstP * 1000) + ' F' + vf + '\nG80\n' + footer();
+  }
+
+  if (op === 'tapping') {
+    if (dialect === 'siemens') {
+      return header('MACHUELO M' + dia + 'x' + pitch) + '\nCYCLE84(5.0, 0, 2.0, -' + depth + ', , , 3, ' + pitch + ', 0, 0, ' + n + ', ' + n + ')\n' + footer();
+    }
+    if (dialect === 'heidenhain') {
+      return header('MACHUELO M' + dia + 'x' + pitch) + '\n5  CYCL DEF 207 ROSCADO RIGIDO ~\n   Q200=2 ;DIST SEGURIDAD ~\n   Q201=-' + depth + ' ;PROFUNDIDAD ~\n   Q239=' + pitch + ' ;PASO ROSCA\n6  L X+0 Y+0 R0 FMAX M99\n' + footer();
+    }
+    return header('MACHUELO M' + dia + 'x' + pitch) + '\nM29 S' + n + ' ( RIGID TAPPING )\nG98 G84 X0. Y0. Z-' + depth + '. R2.0 F' + vf + '\nG80\n' + footer();
+  }
+
+  if (op === 'threading') {
+    const threadDepth = roundTo(0.6134 * pitch, 3);
+    const rootDia = roundTo(dia - 2 * threadDepth, 3);
+    if (dialect === 'siemens') {
+      return header('ROSCADO EXTERIOR P=' + pitch) + '\nCYCLE97(' + pitch + ', 0, -' + len + ', ' + dia + ', ' + dia + ', ' + threadDepth + ', 0, 0, 0.05, 5, 0, 60, 2)\n' + footer();
+    }
+    return header('ROSCADO EXTERIOR P=' + pitch) + '\nG97 S' + n + ' M03\nG00 X' + (dia + 4) + '. Z5.0\nG76 P010060 Q100 R0.05\nG76 X' + rootDia + ' Z-' + len + '. P' + Math.round(threadDepth * 1000) + ' Q150 F' + pitch + '\nG00 X' + (dia + 20) + '.\n' + footer();
+  }
+
+  if (op === 'milling' || op === 'ballnose') {
+    return header('FRESA ' + (op === 'ballnose' ? 'ESFÉRICA' : 'CILÍNDRICA') + ' D' + dia) + '\nG00 X-10. Y0.\nG01 Z-' + ap + '. F' + Math.round(vf * 0.4) + '\nG01 X' + (len || 150) + '. F' + vf + '\nG00 Z10.\n' + footer();
+  }
+
+  if (op === 'grooving') {
+    return header('CUCHILLA TRONZADO W' + bw) + '\nG50 S' + state.machine.maxRpm + '\nG96 S' + Math.round(v.vc) + ' M03\nG00 X' + (dia + 3) + '. Z-10.0\nG75 R0.5\nG75 X' + Dint + '. P' + Math.round(bw * 1000) + ' F' + fn + '\nG00 X' + (dia + 20) + '.\n' + footer();
+  }
+
+  if (op === 'reaming') {
+    return header('ESCARIADOR H7 D' + dia) + '\nG98 G85 X0. Y0. Z-' + depth + '. R2.0 F' + vf + ' ( G85 AVANCE CONTINUO )\nG80\n' + footer();
+  }
+
+  if (op === 'chamfering') {
+    return header('FRESA BISEL ' + (v.angle || 45) + '°') + '\nG00 X-5. Y0.\nG01 Z-' + ap + '. F' + Math.round(vf * 0.4) + '\nG01 X' + (len || 100) + '. F' + vf + '\nG00 Z10.\n' + footer();
+  }
+
+  return header('HERRAMIENTA') + '\n( Bloque CNC en ejecución )\n' + footer();
+}
+
+function renderGCode(op, raw, state) {
+  const box = el('gcodeBox');
+  if (!box) return;
+  const code = generateGCode(op, raw, state);
+  box.innerHTML = '<code>' + esc(code) + '</code>';
+  const dialects = el('gcodeDialects');
+  if (dialects) {
+    dialects.querySelectorAll('.gcode-dialect-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.dialect === (state.gcodeDialect || 'fanuc'));
+    });
+  }
+}
+
+function copyGCode() {
+  if (!lastCalc || !lastCalc.raw) { toast('Primero complete un cálculo válido'); return; }
+  const code = generateGCode(state.op, lastCalc.raw, state);
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(code).then(() => toast('Código G copiado al portapapeles')).catch(() => fallbackCopy(code, () => toast('Código G copiado')));
+  } else {
+    fallbackCopy(code, () => toast('Código G copiado'));
+  }
+}
+
+function downloadNcFile() {
+  if (!lastCalc || !lastCalc.raw) { toast('Primero complete un cálculo válido'); return; }
+  const code = generateGCode(state.op, lastCalc.raw, state);
+  const blob = new Blob([code], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = (state.op || 'mecanizado') + '_' + (state.gcodeDialect || 'fanuc') + '.nc';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  toast('Archivo .NC descargado');
+}
+
+/* ------------------------------------------------------------
+   VISUALIZADOR TÉCNICO INTERACTIVO EN SVG
+   ------------------------------------------------------------ */
+function renderVisualizer(op, raw, state) {
+  const box = el('visualSvgBox');
+  const leg = el('visualLegend');
+  if (!box) return;
+  if (!raw || !raw.n) {
+    box.innerHTML = '<div class="machine-note" style="margin:0">El esquema gráfico aparecerá al completar los parámetros.</div>';
+    if (leg) leg.innerHTML = '';
+    return;
+  }
+
+  let svgHtml = '', legendHtml = '';
+
+  if (op === 'drilling' && raw.pecks) {
+    const pecks = raw.pecks.seq;
+    const depth = num(state.values.drilling.depth) || 50;
+    const dia = num(state.values.drilling.dia) || 10;
+    const h = 180, w = 440;
+    const barTop = 30, barH = 120, barW = 140, barLeft = 150;
+    const scale = barH / depth;
+    let yAcc = barTop;
+    const rects = pecks.map((p, i) => {
+      const pH = Math.max(2, p * scale);
+      const color = i % 2 === 0 ? '#ffc400' : '#d49b00';
+      const r = '<rect x="' + barLeft + '" y="' + yAcc + '" width="' + barW + '" height="' + pH + '" fill="' + color + '" stroke="#0c0e10" stroke-width="1"><title>Picoteo ' + (i+1) + ': ' + p + ' mm</title></rect>' +
+                '<text x="' + (barLeft + barW + 10) + '" y="' + (yAcc + pH/2 + 3) + '" fill="#c3c7cc" font-size="9" font-family="monospace">P' + (i+1) + ': ' + p + ' mm</text>';
+      yAcc += pH;
+      return r;
+    }).join('');
+
+    svgHtml = '<svg class="visual-svg" viewBox="0 0 ' + w + ' ' + h + '" xmlns="http://www.w3.org/2000/svg">' +
+      '<rect x="0" y="0" width="' + w + '" height="' + h + '" fill="#0c0e10" rx="4"/>' +
+      '<rect x="' + (barLeft - 30) + '" y="' + barTop + '" width="' + (barW + 60) + '" height="' + barH + '" fill="#1e2022" stroke="#333537"/>' +
+      rects +
+      '<path d="M ' + barLeft + ' ' + (barTop + barH) + ' l ' + (barW/2) + ' 16 l ' + (barW/2) + ' -16" fill="#ffc400" stroke="#0c0e10"/>' +
+      '<line x1="' + (barLeft - 40) + '" y1="' + barTop + '" x2="' + (barLeft - 40) + '" y2="' + (barTop + barH) + '" stroke="#66b3ff" stroke-width="1.5" marker-end="url(#arrow)"/>' +
+      '<text x="' + (barLeft - 45) + '" y="' + (barTop + barH/2) + '" fill="#66b3ff" font-size="10" font-family="monospace" text-anchor="end">Sn: ' + depth + ' mm</text>' +
+      '<text x="14" y="20" fill="#ffc400" font-size="11" font-weight="bold" font-family="sans-serif">ESQUEMA DE TALADRADO PROFUNDO ESCALONADO</text>' +
+      '</svg>';
+
+    legendHtml = '<span><i class="legend-dot" style="background:#ffc400"></i> Primer picoteo: ' + raw.pecks.first + ' mm</span>' +
+                 '<span><i class="legend-dot" style="background:#d49b00"></i> Último picoteo: ' + raw.pecks.last + ' mm</span>' +
+                 '<span><i class="legend-dot" style="background:#66b3ff"></i> Total ciclos: ' + raw.pecks.count + '</span>';
+  } else if (op === 'ballnose') {
+    const Dc = num(state.values.ballnose.dia) || 12;
+    const ap = num(state.values.ballnose.ap) || 1;
+    const Dcap = raw.Dcap || Dc;
+    const tilt = num(state.values.ballnose.tilt) || 12;
+    const w = 440, h = 180;
+    const cx = 220, cy = 70, R = 50;
+
+    svgHtml = '<svg class="visual-svg" viewBox="0 0 ' + w + ' ' + h + '" xmlns="http://www.w3.org/2000/svg">' +
+      '<rect x="0" y="0" width="' + w + '" height="' + h + '" fill="#0c0e10" rx="4"/>' +
+      '<rect x="80" y="' + (cy + R - ap * (R/(Dc/2))) + '" width="280" height="60" fill="#1e2022" stroke="#333537"/>' +
+      '<circle cx="' + cx + '" cy="' + cy + '" r="' + R + '" fill="none" stroke="#66b3ff" stroke-width="2"/>' +
+      '<circle cx="' + cx + '" cy="' + (cy + R) + '" r="3.5" fill="#ff5a4e"><title>Polo centro muerto (vc = 0)</title></circle>' +
+      '<line x1="' + (cx - (Dcap/Dc)*R) + '" y1="' + (cy + R - ap*(R/(Dc/2))) + '" x2="' + (cx + (Dcap/Dc)*R) + '" y2="' + (cy + R - ap*(R/(Dc/2))) + '" stroke="#ffc400" stroke-width="3"/>' +
+      '<line x1="' + cx + '" y1="' + (cy - 30) + '" x2="' + (cx + Math.sin(tilt*Math.PI/180)*60) + '" y2="' + (cy + R + 20) + '" stroke="#7bd88f" stroke-dasharray="3,3" stroke-width="1.5"/>' +
+      '<text x="14" y="20" fill="#ffc400" font-size="11" font-weight="bold" font-family="sans-serif">CONTACTO Y DIÁMETRO EFECTIVO BALL NOSE</text>' +
+      '<text x="' + cx + '" y="' + (cy + R + 20) + '" fill="#ff5a4e" font-size="9" font-family="monospace" text-anchor="middle">Polo vc=0</text>' +
+      '<text x="' + (cx + 60) + '" y="' + (cy + R - ap*(R/(Dc/2)) - 6) + '" fill="#ffc400" font-size="10" font-family="monospace">Dcap: ' + fmt(Dcap,2) + ' mm</text>' +
+      '</svg>';
+
+    legendHtml = '<span><i class="legend-dot" style="background:#ffc400"></i> Dcap efectivo: ' + fmt(Dcap, 2) + ' mm</span>' +
+                 '<span><i class="legend-dot" style="background:#ff5a4e"></i> Centro muerto (polo)</span>' +
+                 '<span><i class="legend-dot" style="background:#7bd88f"></i> Inclinación eje: ' + tilt + '°</span>';
+  } else if (op === 'milling') {
+    const Dc = num(state.values.milling.dia) || 12;
+    const ae = num(state.values.milling.ae) || 6;
+    const w = 440, h = 180;
+    const cx = 220, cy = 90, R = 55;
+    const ratio = Math.min(1, Math.max(0.01, ae / Dc));
+    const cutX = cx - R + ratio * 2 * R;
+
+    svgHtml = '<svg class="visual-svg" viewBox="0 0 ' + w + ' ' + h + '" xmlns="http://www.w3.org/2000/svg">' +
+      '<rect x="0" y="0" width="' + w + '" height="' + h + '" fill="#0c0e10" rx="4"/>' +
+      '<rect x="' + cutX + '" y="' + (cy - R) + '" width="' + (w - cutX - 40) + '" height="' + (2 * R) + '" fill="#1e2022" stroke="#333537"/>' +
+      '<circle cx="' + cx + '" cy="' + cy + '" r="' + R + '" fill="none" stroke="#ffc400" stroke-width="2.5"/>' +
+      '<line x1="' + cx + '" y1="' + cy + '" x2="' + (cx + R) + '" y2="' + cy + '" stroke="#66b3ff" stroke-width="1.5"/>' +
+      '<line x1="' + (cx - R) + '" y1="' + (cy + R + 15) + '" x2="' + cutX + '" y2="' + (cy + R + 15) + '" stroke="#ffd95c" stroke-width="2"/>' +
+      '<text x="14" y="20" fill="#ffc400" font-size="11" font-weight="bold" font-family="sans-serif">INMERSIÓN RADIAL Y ADELGAZAMIENTO DE VIRUTA</text>' +
+      '<text x="' + ((cx - R + cutX)/2) + '" y="' + (cy + R + 28) + '" fill="#ffd95c" font-size="10" font-family="monospace" text-anchor="middle">ae: ' + ae + ' mm</text>' +
+      '<text x="' + cx + '" y="' + cy + '" fill="#66b3ff" font-size="9" font-family="monospace" text-anchor="middle">R: ' + (Dc/2) + '</text>' +
+      '</svg>';
+
+    legendHtml = '<span><i class="legend-dot" style="background:#ffc400"></i> Fresa Dc: ' + Dc + ' mm</span>' +
+                 '<span><i class="legend-dot" style="background:#ffd95c"></i> Inmersión radial ae: ' + ae + ' mm</span>' +
+                 '<span><i class="legend-dot" style="background:#7bd88f"></i> Factor CTF: ' + fmt(raw.ctfRad || 1, 2) + '×</span>';
+  } else {
+    // Curva de Husillo (Potencia y Torque vs RPM)
+    const w = 440, h = 180;
+    const maxR = state.machine.maxRpm || 10000;
+    const maxP = state.machine.power || 15;
+    const maxM = state.machine.torque || 120;
+    const curN = Math.min(maxR, raw.n || 0);
+    const curP = Math.min(maxP * 1.3, raw.Pc || 0);
+    const curM = Math.min(maxM * 1.3, raw.Mc || 0);
+
+    const xPt = 50 + (curN / maxR) * 340;
+    const yPt = 150 - (curP / maxP) * 100;
+    const safe = curP <= maxP && curM <= maxM && curN <= maxR;
+
+    svgHtml = '<svg class="visual-svg" viewBox="0 0 ' + w + ' ' + h + '" xmlns="http://www.w3.org/2000/svg">' +
+      '<rect x="0" y="0" width="' + w + '" height="' + h + '" fill="#0c0e10" rx="4"/>' +
+      '<line x1="50" y1="150" x2="390" y2="150" stroke="#333537" stroke-width="1.5"/>' +
+      '<line x1="50" y1="30" x2="50" y2="150" stroke="#333537" stroke-width="1.5"/>' +
+      '<path d="M 50 150 Q 150 50 390 50" fill="none" stroke="#66b3ff" stroke-width="2" stroke-dasharray="4,4"><title>Curva de potencia de husillo</title></path>' +
+      '<line x1="50" y1="50" x2="390" y2="50" stroke="#ff5a4e" stroke-dasharray="2,2" stroke-width="1"/>' +
+      '<circle cx="' + xPt + '" cy="' + Math.max(30, Math.min(150, yPt)) + '" r="5" fill="' + (safe ? '#7bd88f' : '#ff5a4e') + '"/>' +
+      '<text x="14" y="20" fill="#ffc400" font-size="11" font-weight="bold" font-family="sans-serif">CURVA DE HUSILLO & PUNTO DE OPERACIÓN</text>' +
+      '<text x="' + xPt + '" y="' + (Math.max(30, yPt) - 8) + '" fill="' + (safe ? '#7bd88f' : '#ff5a4e') + '" font-size="10" font-family="monospace" text-anchor="middle">' + fmt(curN, 0) + ' rpm / ' + fmt(curP, 1) + ' kW</text>' +
+      '<text x="390" y="162" fill="#8b9197" font-size="9" font-family="monospace" text-anchor="end">' + maxR + ' rpm</text>' +
+      '<text x="46" y="52" fill="#ff5a4e" font-size="9" font-family="monospace" text-anchor="end">Pmax ' + maxP + ' kW</text>' +
+      '</svg>';
+
+    legendHtml = '<span><i class="legend-dot" style="background:' + (safe ? '#7bd88f' : '#ff5a4e') + '"></i> Punto actual: ' + fmt(curN, 0) + ' rpm (' + (safe ? 'Seguro' : 'Sobrecarga') + ')</span>' +
+                 '<span><i class="legend-dot" style="background:#66b3ff"></i> Capacidad husillo: ' + maxP + ' kW / ' + maxM + ' N·m</span>';
+  }
+
+  box.innerHTML = svgHtml;
+  if (leg) leg.innerHTML = legendHtml;
+}
+
+/* ------------------------------------------------------------
+   HOJA DE TALLER (SETUP SHEET PDF / PRINT)
+   ------------------------------------------------------------ */
+function openSetupSheet() {
+  if (!lastCalc || !lastCalc.raw) { toast('Primero complete un cálculo válido'); return; }
+  const op = OPS[state.op];
+  const mat = getMaterial();
+  const r = lastCalc.raw;
+  const v = state.values[state.op];
+  const gcode = generateGCode(state.op, r, state);
+
+  const container = el('setupSheetContent');
+  if (!container) return;
+
+  container.innerHTML =
+    '<div class="setup-head">' +
+      '<div>' +
+        '<div class="setup-company">Soluciones en Mecanizado <span>CNC</span></div>' +
+        '<div style="font-size:11px;color:#555">Ing. Nestor Alonso Gamez Lombana · Cali, Colombia · +57 305 291 2936</div>' +
+      '</div>' +
+      '<div style="text-align:right">' +
+        '<div style="font-weight:700;font-size:14px;color:#111">HOJA TÉCNICA DE OPERACIÓN CNC</div>' +
+        '<div style="font-size:11px;color:#666">FECHA: ' + new Date().toLocaleDateString('es-CO') + '</div>' +
+      '</div>' +
+    '</div>' +
+
+    '<div class="setup-meta-grid">' +
+      '<div class="setup-meta-field"><label>Pieza / Plano OT</label><input type="text" value="PIEZA CNC — OT-001"></div>' +
+      '<div class="setup-meta-field"><label>Operación</label><input type="text" readonly value="' + esc(op.name) + '"></div>' +
+      '<div class="setup-meta-field"><label>Máquina / Husillo</label><input type="text" value="' + state.machine.preset.toUpperCase() + ' (' + state.machine.power + ' kW)"></div>' +
+      '<div class="setup-meta-field"><label>Material de la pieza</label><input type="text" readonly value="' + esc(mat.name) + '"></div>' +
+      '<div class="setup-meta-field"><label>Herramienta</label><input type="text" readonly value="' + esc(TOOL_LABELS[state.tool]) + '"></div>' +
+      '<div class="setup-meta-field"><label>Programador CNC</label><input type="text" value="Ing. Nestor Gamez"></div>' +
+    '</div>' +
+
+    '<table class="setup-table">' +
+      '<thead><tr><th>Parámetro</th><th>Valor Calculado</th><th>Unidad</th><th>Referencia / Fórmula</th></tr></thead>' +
+      '<tbody>' +
+        '<tr><td><b>Velocidad del husillo (n)</b></td><td><b>' + fmt(r.n, 0) + '</b></td><td>rpm</td><td>vc: ' + v.vc + ' m/min</td></tr>' +
+        '<tr><td><b>Velocidad de avance (vf)</b></td><td><b>' + fmt(r.vf, 1) + '</b></td><td>mm/min</td><td>Avance por filo/rev programado</td></tr>' +
+        '<tr><td><b>Potencia neta corte (Pc)</b></td><td>' + fmt(r.Pc, 2) + '</td><td>kW</td><td>Kienzle kc: ' + fmt(r.kc, 0) + ' N/mm²</td></tr>' +
+        '<tr><td><b>Torque en el husillo (Mc)</b></td><td>' + fmt(r.Mc, 1) + '</td><td>N·m</td><td>Límite máquina: ' + state.machine.torque + ' N·m</td></tr>' +
+        '<tr><td><b>Tasa de remoción (Q / MRR)</b></td><td>' + fmt(r.Q, 2) + '</td><td>cm³/min</td><td>Volumen de viruta por minuto</td></tr>' +
+        '<tr><td><b>Tiempo neto estimado (Tc)</b></td><td>' + formatTimeShort(lastCalc.time) + '</td><td>min</td><td>Sin incluir cambios de herramienta</td></tr>' +
+      '</tbody>' +
+    '</table>' +
+
+    '<div style="font-weight:700;font-size:11px;margin-bottom:6px;text-transform:uppercase">Código G sugerido (' + (state.gcodeDialect || 'fanuc').toUpperCase() + ')</div>' +
+    '<pre class="setup-gcode-preview"><code>' + esc(gcode) + '</code></pre>' +
+
+    '<div class="setup-checklist">' +
+      '<label><input type="checkbox" checked> Cero de pieza verificado (G54 / G55)</label>' +
+      '<label><input type="checkbox" checked> Compensador de altura medido (H)</label>' +
+      '<label><input type="checkbox" checked> Presión de mordazas / sujeción rígida</label>' +
+      '<label><input type="checkbox" checked> Flujo y concentración de refrigerante</label>' +
+    '</div>' +
+
+    '<div class="setup-footer">' +
+      '<div>Documento generado por <strong>ParaCorte.ing.Nestor</strong> · WhatsApp: +57 305 291 2936</div>' +
+      '<div>Firma de validación: _______________________</div>' +
+    '</div>';
+
+  openDialog('setupSheetDialog');
+}
+
+/* ------------------------------------------------------------
+   DEEP LINKING / COMPARTIR PARÁMETROS VÍA URL
+   ------------------------------------------------------------ */
+function buildShareUrl() {
+  const p = new URLSearchParams();
+  p.set('op', state.op);
+  p.set('mat', state.material);
+  p.set('tool', state.tool);
+  p.set('unit', state.unit);
+  const vals = state.values[state.op] || {};
+  for (const k of Object.keys(vals)) {
+    if (vals[k] !== undefined && vals[k] !== '') p.set(k, vals[k]);
+  }
+  return location.origin + location.pathname + '#' + p.toString();
+}
+
+function copyShareLink() {
+  const url = buildShareUrl();
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(() => toast('Enlace de cálculo copiado al portapapeles')).catch(() => fallbackCopy(url, () => toast('Enlace copiado')));
+  } else {
+    fallbackCopy(url, () => toast('Enlace copiado'));
+  }
+}
+
+function parseShareUrl() {
+  const hash = (location.hash || '').replace(/^#/, '');
+  if (!hash.includes('=')) return false;
+  try {
+    const p = new URLSearchParams(hash);
+    const op = p.get('op');
+    if (op && OPS[op]) state.op = op;
+    const mat = p.get('mat');
+    if (mat && (MATERIALS[mat] || mat === 'custom')) state.material = mat;
+    const tool = p.get('tool');
+    if (tool === 'hss' || tool === 'carbide') state.tool = tool;
+    const unit = p.get('unit');
+    if (unit === 'metric' || unit === 'imperial') state.unit = unit;
+
+    const currentVals = state.values[state.op] || defaultsFor(state.op);
+    for (const [k, val] of p.entries()) {
+      if (!['op','mat','tool','unit'].includes(k)) {
+        currentVals[k] = isNaN(Number(val)) ? val : Number(val);
+      }
+    }
+    state.values[state.op] = currentVals;
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
 function renderCalcHeader() {
   const op = OPS[state.op];
   const set = (id, txt) => { const n = el(id); if (n) n.textContent = txt; };
@@ -2670,8 +3498,8 @@ function summaryText() {
   lines.push('  Potencia: ' + fmt(state.machine.power, 2) + ' kW · Torque: ' + fmt(state.machine.torque, 1) + ' N·m · RPM: ' + fmt(state.machine.maxRpm, 0));
   lines.push('');
   lines.push('Cálculo de referencia. Valide en máquina antes de mecanizar.');
-  lines.push('Soluciones en Mecanizado CNC — ' + SITE_URL.split('&')[0]);
-  lines.push('WhatsApp: +57 305 291 2936');
+  lines.push('Soluciones en Mecanizado CNC — Ing. Nestor Alonso Gamez Lombana');
+  lines.push('WhatsApp / Celular: +57 305 291 2936');
   return lines.join('\n');
 }
 
@@ -2762,6 +3590,66 @@ function bindEvents() {
   if (brandHome) brandHome.addEventListener('click', e => { e.preventDefault(); backToMenu(); });
   const mobMenuBtn = el('mobMenuBtn');
   if (mobMenuBtn) mobMenuBtn.addEventListener('click', backToMenu);
+
+  
+  /* Switch de Unidades */
+  const unitSwitch = el('unitSwitch');
+  if (unitSwitch) {
+    unitSwitch.addEventListener('click', e => {
+      const b = e.target.closest('[data-unit]');
+      if (b) toggleUnit(b.dataset.unit);
+    });
+  }
+
+  /* PWA Install */
+  let deferredPrompt = null;
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredPrompt = e;
+    const pwaBtn = el('pwaInstallBtn');
+    if (pwaBtn) pwaBtn.classList.add('visible');
+  });
+  const pwaInstallBtn = el('pwaInstallBtn');
+  if (pwaInstallBtn) {
+    pwaInstallBtn.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const choice = await deferredPrompt.userChoice;
+        if (choice.outcome === 'accepted') toast('ParaCorte instalada con éxito');
+        deferredPrompt = null;
+        pwaInstallBtn.classList.remove('visible');
+      } else {
+        toast('Para instalar, use "Agregar a pantalla principal" en el menú del navegador');
+      }
+    });
+  }
+
+  /* Dialectos de Código G */
+  const gcodeDialects = el('gcodeDialects');
+  if (gcodeDialects) {
+    gcodeDialects.addEventListener('click', e => {
+      const b = e.target.closest('[data-dialect]');
+      if (!b) return;
+      state.gcodeDialect = b.dataset.dialect;
+      renderGCode(state.op, lastCalc ? lastCalc.raw : null, state);
+    });
+  }
+  const copyGcodeBtn = el('copyGcodeBtn');
+  if (copyGcodeBtn) copyGcodeBtn.addEventListener('click', copyGCode);
+  const downloadNcBtn = el('downloadNcBtn');
+  if (downloadNcBtn) downloadNcBtn.addEventListener('click', downloadNcFile);
+
+  /* Hoja de taller */
+  const setupSheetBtn = el('setupSheetBtn');
+  if (setupSheetBtn) setupSheetBtn.addEventListener('click', openSetupSheet);
+  const printSetupBtn = el('printSetupBtn');
+  if (printSetupBtn) printSetupBtn.addEventListener('click', () => window.print());
+
+  /* Compartir cálculo */
+  const shareCalcBtn = el('shareCalcBtn');
+  if (shareCalcBtn) shareCalcBtn.addEventListener('click', copyShareLink);
+  const copyShareBtn = el('copyShareBtn');
+  if (copyShareBtn) copyShareBtn.addEventListener('click', copyShareLink);
 
   /* Material y herramienta */
   const materialSelect = el('materialSelect');
@@ -2997,6 +3885,26 @@ function init() {
   renderMaterialTable();
   renderRefFormulas();
   wireLinks();
+  syncUnitUI();
+
+  // Registro de Service Worker para funcionamiento 100% offline
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').then(reg => {
+        console.log('ParaCorte Service Worker activo:', reg.scope);
+      }).catch(err => {
+        console.warn('Service Worker aviso:', err);
+      });
+    });
+  }
+
+  // Parsear deep link si existe en la URL
+  if (parseShareUrl()) {
+    openOp(state.op, false);
+    toast('Cálculo compartido cargado con éxito');
+    return;
+  }
+
   syncMaterialUI();
   syncMachineUI();
   renderHistory();
