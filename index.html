@@ -177,6 +177,8 @@ table{border-collapse:collapse}
 .menu-intro .menu-meta{text-align:right;font-family:var(--font-mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-2);line-height:1.8;flex:0 0 auto}
 .menu-intro .menu-meta b{color:var(--accent);font-weight:500}
 .op-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:18px}
+.op-card:last-child:nth-child(odd){grid-column:1/-1}
+@media(min-width:1160px){.op-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.op-card:last-child:nth-child(odd){grid-column:auto}}
 .op-card{position:relative;text-align:left;border:1px solid var(--line);background:linear-gradient(180deg,var(--panel) 0%,var(--bg-low) 100%);padding:16px 16px 14px;cursor:pointer;transition:border-color .2s,background .2s,transform .2s;overflow:hidden;display:flex;flex-direction:column;min-height:214px}
 .op-card::before{content:'';position:absolute;top:0;left:0;width:0;height:2px;background:var(--accent);transition:width .3s ease}
 .op-card:hover{border-color:var(--line-warm);background:linear-gradient(180deg,#232419 0%,var(--bg-low) 100%);transform:translateY(-2px)}
@@ -962,19 +964,10 @@ details.advanced .field-grid{margin-top:12px}
             </div>
             <div class="menu-meta">
               <span><b>HERRAMIENTA GRATUITA</b></span><br>
-              <span>Para clientes y colegas</span><br>
+              <span>Para Colegas</span><br>
               <span>Ing. Nestor A. Gamez L.</span>
             </div>
           </div>
-
-          <a class="web-banner wa-link" href="#" target="_blank" rel="noopener noreferrer" aria-label="Escribir al WhatsApp del Ing. Nestor (+57 305 291 2936)">
-            <span class="web-banner-copy">
-              <span class="web-banner-kicker">[ Asesoría técnica y soporte en planta ]</span>
-              <strong class="web-banner-title">Escríbeme por WhatsApp: +57 305 291 2936</strong>
-              <span class="web-banner-url">Ing. Nestor Alonso Gamez Lombana · Cali, Valle del Cauca</span>
-            </span>
-            <span class="web-banner-cta">Abrir WhatsApp <span aria-hidden="true">↗</span></span>
-          </a>
 
           <div class="op-grid" id="opGrid" aria-label="Operaciones de mecanizado"></div>
 
@@ -1201,7 +1194,7 @@ details.advanced .field-grid{margin-top:12px}
       <footer class="menu-footer">
         <div>
           <div class="foot-brand">ParaCorte<span>.ing.Nestor</span> // v1.0.0</div>
-          <div class="foot-note">Calculadora de parámetros de corte desarrollada para clientes y colegas del taller. Cálculo 100% local, sin almacenamiento externo.</div>
+          <div class="foot-note">Calculadora de parámetros de corte desarrollada para colegas del taller. Cálculo 100% local, sin almacenamiento externo.</div>
         </div>
         <div class="foot-links">
           <a class="wa-link" href="#" target="_blank" rel="noopener noreferrer">WhatsApp: +57 305 291 2936 ↗</a>
